@@ -27,9 +27,13 @@ public class User {
 
     private String deleted_by;
 
+    private UserRoleEnum userRoleEnum;
+
     private LocalDateTime createdAt;
 
     private LocalDateTime modifiedAt;
+
+
 
 
 
