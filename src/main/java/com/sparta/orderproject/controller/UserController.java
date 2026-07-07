@@ -1,13 +1,15 @@
 package com.sparta.orderproject.controller;
 
+import com.sparta.orderproject.dto.UserRequestDto;
+import com.sparta.orderproject.dto.UserResponseDto;
 import com.sparta.orderproject.entity.User;
 import com.sparta.orderproject.repository.UserRepository;
-import com.sparta.orderproject.security.UserService;
-import lombok.NoArgsConstructor;
+import com.sparta.orderproject.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -22,6 +24,7 @@ public class UserController {
     private final UserService userService;
 
 
+    // 전체 유저 조회
     @GetMapping
     public List<User> findAllUsers(){
 
@@ -29,6 +32,13 @@ public class UserController {
 
 
         return userRepository.findAll();
+    }
+
+    @PostMapping
+    public UserResponseDto createUser(@RequestBody UserRequestDto userRequestDto){
+
+
+
     }
 
 
