@@ -44,12 +44,21 @@ public class User extends Timestamped{
     private UserRoleEnum userRoleEnum;
 
 
-    public User(Long id, String username, String password, String nickname, String phone, UserRoleEnum userRoleEnum) {
-        this.id = id;
+    public User(String username, String password, String nickname, String phone, UserRoleEnum userRoleEnum) {
         this.username = username;
         this.password = password;
         this.nickname = nickname;
         this.phone = phone;
         this.userRoleEnum = userRoleEnum;
     }
+
+
+    public void update(String password){
+        this.password = password;
+    }
+
+
+
+
+
 }

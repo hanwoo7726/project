@@ -37,8 +37,6 @@ public class UserRequestDto {
     )
     private String phone;
 
-    @NotNull(message = "권한은 필수입니다.")
-    private UserRoleEnum userRoleEnum;
 
 
 
