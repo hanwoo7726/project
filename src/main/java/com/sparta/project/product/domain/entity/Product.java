@@ -39,5 +39,16 @@ public class Product extends BaseEntity {
     @Column(name = "display_order")
     private Integer displayOrder;
 
+    // 상품 생성
+    public static Product create(UUID storeId, String name, Integer price, String description, Integer displayOrder) {
+        Product product = new Product();
+        product.storeId = storeId;
+        product.name = name;
+        product.price = price;
+        product.description = description;
+        product.displayOrder = displayOrder;
+        product.isHidden = false; // 이건 고민
+        return product;
+    }
 }
 
