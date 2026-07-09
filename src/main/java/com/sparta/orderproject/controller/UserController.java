@@ -1,5 +1,6 @@
 package com.sparta.orderproject.controller;
 
+import com.sparta.orderproject.dto.LoginRequestDto;
 import com.sparta.orderproject.dto.PasswordRequestDto;
 import com.sparta.orderproject.dto.UserRequestDto;
 import com.sparta.orderproject.dto.UserResponseDto;
@@ -69,7 +70,13 @@ public class UserController {
     // 로그인
 
     @PostMapping
-    public String loginUser()
+    public String loginUser(@Valid @RequestBody LoginRequestDto dto){
+        userService.loginUser(dto);
+
+
+        return "로그인 성공";
+
+    }
 
 
 

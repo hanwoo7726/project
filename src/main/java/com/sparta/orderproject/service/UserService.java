@@ -60,10 +60,17 @@ public class UserService {
     }
 
     // 로그인 기능
-    public void loginUser(LoginRequestDto dto){
-        User user = userRepository.findById()
+    public String loginUser(LoginRequestDto dto){
+        User user = userRepository.findByUsername(dto.getUsername())
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 회원 입니다."));
+
+        if(!user.getPassword().equals(dto.getPassword())){
+            throw new RuntimeException("비밀번호가 일치하지 않습니다.");
 
 
+        }
+
+        return "로그인 성공";
 
 
 
