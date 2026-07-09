@@ -31,7 +31,7 @@ public class AddressService {
     boolean hasAddress = addressRepository.existsByUser_IdAndIsDefaultIsTrueAndDeletedAtIsNull(userId);
     boolean isDefault = !hasAddress;
 
-    Address address = Address.createAddress(findUser, reqDto, isDefault);
+    Address address = Address.create(findUser, reqDto, isDefault);
 
     Address saveAddress = addressRepository.save(address);
 

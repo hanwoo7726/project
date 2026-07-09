@@ -65,7 +65,7 @@ public class Address extends BaseEntity {
     this.isDefault = isDefault;
   }
 
-  public static Address createAddress(
+  public static Address create(
       User user,
       ReqCreateAddressDto dto,
       boolean isDefault
