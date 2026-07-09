@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class ProductService {
@@ -29,5 +31,12 @@ public class ProductService {
         Product savedProduct = productRepository.save(product);
         // 3. Entity -> Response DTO 변환 후 반환
         return ProductResponse.from(savedProduct);
+    }
+
+    @Transactional
+    public ProductResponse getProduct(UUID productId){
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new IllegalArgumentException("상품을 찾을 수 없습니다. "));
+        return ProductResponse.from(product);
     }
 }
