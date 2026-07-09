@@ -21,7 +21,7 @@ public class JwtUtil {
 
     private final long TOKEN_TIME = 60 * 60 * 1000L; // 1시간
 
-
+    @Value("${jwt.secret.key}")
     private final SecretKey secretKey;
 
 
