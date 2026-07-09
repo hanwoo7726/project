@@ -1,12 +1,12 @@
-package com.sparta.orderproject.controller;
+package com.sparta.project.controller;
 
-import com.sparta.orderproject.dto.LoginRequestDto;
-import com.sparta.orderproject.dto.PasswordRequestDto;
-import com.sparta.orderproject.dto.UserRequestDto;
-import com.sparta.orderproject.dto.UserResponseDto;
-import com.sparta.orderproject.entity.User;
-import com.sparta.orderproject.repository.UserRepository;
-import com.sparta.orderproject.service.UserService;
+import com.sparta.project.dto.LoginRequestDto;
+import com.sparta.project.dto.PasswordRequestDto;
+import com.sparta.project.dto.UserRequestDto;
+import com.sparta.project.dto.UserResponseDto;
+import com.sparta.project.entity.User;
+import com.sparta.project.repository.UserRepository;
+import com.sparta.project.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

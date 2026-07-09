@@ -1,6 +1,6 @@
-package com.sparta.orderproject.jwt;
+package com.sparta.project.jwt;
 
-import com.sparta.orderproject.entity.UserRoleEnum;
+import com.sparta.project.entity.UserRoleEnum;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -21,7 +21,6 @@ public class JwtUtil {
 
     private final long TOKEN_TIME = 60 * 60 * 1000L; // 1시간
 
-    @Value("${jwt.secret.key}")
     private final SecretKey secretKey;
 
 

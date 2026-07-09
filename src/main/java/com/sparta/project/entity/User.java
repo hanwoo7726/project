@@ -1,4 +1,4 @@
-package com.sparta.orderproject.entity;
+package com.sparta.project.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @Table(name = "p_user")
-public class User extends Timestamped{
+public class User extends com.sparta.project.entity.Timestamped {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -41,10 +41,10 @@ public class User extends Timestamped{
     private String phone;
 
     @Enumerated(EnumType.STRING)
-    private UserRoleEnum userRoleEnum;
+    private com.sparta.project.entity.UserRoleEnum userRoleEnum;
 
 
-    public User(String username, String password, String nickname, String phone, UserRoleEnum userRoleEnum) {
+    public User(String username, String password, String nickname, String phone, com.sparta.project.entity.UserRoleEnum userRoleEnum) {
         this.username = username;
         this.password = password;
         this.nickname = nickname;

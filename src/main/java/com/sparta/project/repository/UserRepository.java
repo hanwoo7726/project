@@ -1,6 +1,6 @@
-package com.sparta.orderproject.repository;
+package com.sparta.project.repository;
 
-import com.sparta.orderproject.entity.User;
+import com.sparta.project.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

@@ -1,11 +1,9 @@
-package com.sparta.orderproject.dto;
+package com.sparta.project.dto;
 
-import com.sparta.orderproject.entity.UserRoleEnum;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
-import java.time.LocalDateTime;
+
 
 @Getter
 public class UserRequestDto {

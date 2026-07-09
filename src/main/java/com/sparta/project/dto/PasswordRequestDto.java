@@ -1,4 +1,4 @@
-package com.sparta.orderproject.dto;
+package com.sparta.project.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

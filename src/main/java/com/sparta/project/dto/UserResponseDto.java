@@ -1,7 +1,7 @@
-package com.sparta.orderproject.dto;
+package com.sparta.project.dto;
 
-import com.sparta.orderproject.entity.User;
-import com.sparta.orderproject.entity.UserRoleEnum;
+import com.sparta.project.entity.User;
+import com.sparta.project.entity.UserRoleEnum;
 import lombok.Getter;
 
 import java.time.LocalDateTime;

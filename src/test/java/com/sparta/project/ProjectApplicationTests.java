@@ -1,13 +1,13 @@
-package com.sparta.orderproject;
+package com.sparta.project;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class OrderProjectApplicationTests {
+class ProjectApplicationTests {
 
-    @Test
-    void contextLoads() {
-    }
+	@Test
+	void contextLoads() {
+	}
 
 }
