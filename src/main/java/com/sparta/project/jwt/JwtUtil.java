@@ -4,6 +4,7 @@ import com.sparta.project.entity.UserRoleEnum;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -45,6 +46,12 @@ public class JwtUtil {
                 .compact();
 
     }
+
+    public String getTokenFromRequest(HttpServletRequest request){
+        return request.getHeader(AUTHORIZATION_HEATDER);
+    }
+
+
 
     public String substringToken(String tokenValue) {
         if (tokenValue != null && tokenValue.startsWith(BEARER_PREFIX)){
