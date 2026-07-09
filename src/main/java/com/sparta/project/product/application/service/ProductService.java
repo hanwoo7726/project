@@ -5,9 +5,13 @@ import com.sparta.project.product.domain.repository.ProductRepository;
 import com.sparta.project.product.presentation.dto.request.ProductCreateRequest;
 import com.sparta.project.product.presentation.dto.response.ProductResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -15,10 +19,14 @@ import java.util.UUID;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    // 페이지 크기
+    private static final int DEFAULT_PAGE_SIZE = 10;
+    private static final List<Integer> ALLOWED_PAGE_SIZES = List.of(10, 20, 30);
+
 
     // 상품 등록
     @Transactional
-    public ProductResponse createProduct(ProductCreateRequest request){
+    public ProductResponse createProduct(ProductCreateRequest request) {
         // 1. 요청 DTO -> Entity 생성
         Product product = Product.create(
                 request.getStoreId(),
@@ -33,10 +41,29 @@ public class ProductService {
         return ProductResponse.from(savedProduct);
     }
 
-    @Transactional
-    public ProductResponse getProduct(UUID productId){
+    // 상품 단건 조회
+    @Transactional(readOnly = true)
+    public ProductResponse getProduct(UUID productId) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new IllegalArgumentException("상품을 찾을 수 없습니다. "));
         return ProductResponse.from(product);
+    }
+
+    // 상품 목록 조회
+    @Transactional(readOnly = true)
+    public Page<ProductResponse> getProducts(Pageable pageable) {
+        Pageable validatedPageable = validatePageSize(pageable);
+
+        return productRepository.findAll(validatedPageable)
+                .map(ProductResponse::from);
+    }
+    // 페이지 크기 검증  10/20/30
+    private Pageable validatePageSize(Pageable pageable){
+        int size = pageable.getPageSize();
+
+        if(ALLOWED_PAGE_SIZES.contains(size)){
+            return PageRequest.of(pageable.getPageNumber(), DEFAULT_PAGE_SIZE, pageable.getSort());
+        }
+        return pageable;
     }
 }
