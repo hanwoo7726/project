@@ -3,6 +3,7 @@ package com.sparta.project.product.application.service;
 import com.sparta.project.product.domain.entity.Product;
 import com.sparta.project.product.domain.repository.ProductRepository;
 import com.sparta.project.product.presentation.dto.request.ProductCreateRequest;
+import com.sparta.project.product.presentation.dto.request.ProductUpdateRequest;
 import com.sparta.project.product.presentation.dto.response.ProductResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -57,6 +58,22 @@ public class ProductService {
         return productRepository.searchProducts(storeId, keyword, validatedPageable)
                 .map(ProductResponse::from);
     }
+
+    // 상품 수정
+    public ProductResponse updateProduct(UUID productId, ProductUpdateRequest request) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(()-> new IllegalArgumentException("상품을 찾을 수 없습니다. "));
+
+        product.update(
+               request.getName(),
+               request.getPrice(),
+               request.getDescription(),
+               request.getDisplayOrder()
+        );
+
+        return ProductResponse.from(product);
+    }
+
     // 페이지 크기 검증  10/20/30
     private Pageable validatePageSize(Pageable pageable){
         int size = pageable.getPageSize();

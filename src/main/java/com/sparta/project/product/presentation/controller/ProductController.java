@@ -2,6 +2,7 @@ package com.sparta.project.product.presentation.controller;
 
 import com.sparta.project.product.application.service.ProductService;
 import com.sparta.project.product.presentation.dto.request.ProductCreateRequest;
+import com.sparta.project.product.presentation.dto.request.ProductUpdateRequest;
 import com.sparta.project.product.presentation.dto.response.ProductResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -46,5 +47,15 @@ public class ProductController {
     ) {
                 Page<ProductResponse> response = productService.getProducts(storeId, keyword, pageable);
                 return ResponseEntity.ok(response);
+    }
+
+    // 상품 수정
+    @PatchMapping("/{productId}")
+    public ResponseEntity<ProductResponse> updateProduct(
+            @PathVariable UUID productId,
+            @Valid @RequestBody ProductUpdateRequest request
+    ){
+        ProductResponse response = productService.updateProduct(productId, request);
+        return ResponseEntity.ok(response);
     }
 }
