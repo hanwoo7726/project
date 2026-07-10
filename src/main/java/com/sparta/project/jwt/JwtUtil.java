@@ -5,6 +5,9 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +19,7 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    public static final String AUTHORIZATION_HEATDER = "Authorization";
+    public static final String AUTHORIZATION_HEADER = "Authorization";
     public static final String AUTHORIZATION_KEY = "auth";
     public static final String BEARER_PREFIX = "Bearer ";
 
@@ -24,6 +27,7 @@ public class JwtUtil {
 
     private final SecretKey secretKey;
 
+    public static final Logger logger = LoggerFactory.getLogger("JWT 관련 로그");
 
     public JwtUtil(@Value("${jwt.secret.key}") String secretKey) {
         this.secretKey = new SecretKeySpec(
@@ -48,7 +52,7 @@ public class JwtUtil {
     }
 
     public String getTokenFromRequest(HttpServletRequest request){
-        return request.getHeader(AUTHORIZATION_HEATDER);
+        return request.getHeader(AUTHORIZATION_HEADER);
     }
 
 

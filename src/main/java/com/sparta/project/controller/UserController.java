@@ -27,7 +27,7 @@ public class UserController {
 
 
     // 전체 유저 조회
-    @GetMapping("/findAll")
+    @GetMapping()
     public List<UserResponseDto> findAllUsers(){
 
 
@@ -37,7 +37,7 @@ public class UserController {
     }
 
     // 회원 가입
-    @PostMapping("/create")
+    @PostMapping()
     public UserResponseDto createUser(@Valid  @RequestBody UserRequestDto userRequestDto){
 
         return userService.createUser(userRequestDto);
@@ -45,7 +45,7 @@ public class UserController {
     }
 
     // 비밀번호 변경
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public String updatePassword(@PathVariable Long id,
                                  @Valid @RequestBody PasswordRequestDto dto){
         userService.updatePassword(id, dto.getPassword());
@@ -58,7 +58,7 @@ public class UserController {
     }
 
     // 유저 삭제
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public String deleteUser(@PathVariable Long id){
         userService.softDelete(id);
 
@@ -69,7 +69,7 @@ public class UserController {
 
     // 로그인
 
-    @PostMapping
+    @PostMapping("/login")
     public String loginUser(@Valid @RequestBody LoginRequestDto dto){
         userService.loginUser(dto);
 

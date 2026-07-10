@@ -22,7 +22,7 @@ public class UserService {
 
     public UserResponseDto createUser(UserRequestDto userRequestDto){
         User user = new User(userRequestDto.getUsername(),userRequestDto.getPassword()
-        ,userRequestDto.getNickname(),userRequestDto.getPhone(), UserRoleEnum.ROLE_USER);
+        ,userRequestDto.getNickname(),userRequestDto.getPhone(), UserRoleEnum.USER);
 
         User savedUser = userRepository.save(user);
 
