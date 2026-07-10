@@ -5,8 +5,10 @@ import com.sparta.project.dto.UserRequestDto;
 import com.sparta.project.dto.UserResponseDto;
 import com.sparta.project.entity.User;
 import com.sparta.project.entity.UserRoleEnum;
+import com.sparta.project.jwt.JwtUtil;
 import com.sparta.project.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,19 +20,26 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final JwtUtil jwtUtil;
+    private final PasswordEncoder passwordEncoder;
 
 
+    // 회원 가입
     public UserResponseDto createUser(UserRequestDto userRequestDto){
-        User user = new User(userRequestDto.getUsername(),userRequestDto.getPassword()
+
+        String encodePassword = passwordEncoder.encode(userRequestDto.getPassword());
+
+        User user = new User(userRequestDto.getUsername(),encodePassword
         ,userRequestDto.getNickname(),userRequestDto.getPhone(), UserRoleEnum.USER);
 
         User savedUser = userRepository.save(user);
 
-        return new UserResponseDto(user);
+        return new UserResponseDto(savedUser);
 
 
     }
 
+    // 회원 목록 전체 조회
     public List<UserResponseDto> findAllUsers(){
         List<User> user = userRepository.findAll();
 
@@ -42,15 +51,18 @@ public class UserService {
     }
 
 
+    // 회원 정보 변경
     @Transactional
     public void updatePassword(Long id, String password){
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("없는 유저 입니다."));
 
-        user.update(password);
+        String encodedPassword = passwordEncoder.encode(password);
+        user.update(encodedPassword);
 
     }
 
+    // 회원 탈퇴 기능
     @Transactional
     public void softDelete(Long id){
         User user = userRepository.findById(id)
@@ -64,13 +76,13 @@ public class UserService {
         User user = userRepository.findByUsername(dto.getUsername())
                 .orElseThrow(() -> new RuntimeException("존재하지 않는 회원 입니다."));
 
-        if(!user.getPassword().equals(dto.getPassword())){
+        if(!passwordEncoder.matches(dto.getPassword(), user.getPassword())){
             throw new RuntimeException("비밀번호가 일치하지 않습니다.");
 
 
         }
 
-        return "로그인 성공";
+        return jwtUtil.createToken(user.getUsername(), user.getUserRoleEnum());
 
 
 

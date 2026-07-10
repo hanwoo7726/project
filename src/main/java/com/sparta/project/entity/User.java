@@ -41,7 +41,7 @@ public class User extends com.sparta.project.entity.Timestamped {
     private String phone;
 
     @Enumerated(EnumType.STRING)
-    private com.sparta.project.entity.UserRoleEnum userRoleEnum;
+    private UserRoleEnum userRoleEnum;
 
 
     public User(String username, String password, String nickname, String phone, com.sparta.project.entity.UserRoleEnum userRoleEnum) {
