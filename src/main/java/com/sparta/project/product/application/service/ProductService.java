@@ -51,10 +51,10 @@ public class ProductService {
 
     // 상품 목록 조회
     @Transactional(readOnly = true)
-    public Page<ProductResponse> getProducts(Pageable pageable) {
+    public Page<ProductResponse> getProducts(UUID storeId, String keyword, Pageable pageable) {
         Pageable validatedPageable = validatePageSize(pageable);
 
-        return productRepository.findAll(validatedPageable)
+        return productRepository.searchProducts(storeId, keyword, validatedPageable)
                 .map(ProductResponse::from);
     }
     // 페이지 크기 검증  10/20/30

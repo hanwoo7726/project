@@ -40,8 +40,11 @@ public class ProductController {
     // 상품 목록 조회
     @GetMapping
     public ResponseEntity<Page<ProductResponse>> getProducts(
-            @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
-                Page<ProductResponse> response = productService.getProducts(pageable);
+            @RequestParam(required = false) UUID storeId,
+            @RequestParam(required = false) String keyword,
+            @PageableDefault(size = 10) Pageable pageable
+    ) {
+                Page<ProductResponse> response = productService.getProducts(storeId, keyword, pageable);
                 return ResponseEntity.ok(response);
     }
 }
