@@ -66,5 +66,14 @@ public class Product extends BaseEntity {
             this.displayOrder = displayOrder;
         }
     }
+
+    // 상품 숨김 처리
+    public void hide(){
+        this.isHidden = true;
+    }
+    // 상품 노출 처리
+    public void show(){
+        this.isHidden = false;
+    }
 }
 

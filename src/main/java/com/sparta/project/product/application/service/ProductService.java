@@ -74,6 +74,22 @@ public class ProductService {
         return ProductResponse.from(product);
     }
 
+    // 상품 숨김/노출 전환
+    @Transactional
+    public ProductResponse updateVisibility(UUID productId, Boolean isHidden){
+        Product product = productRepository.findById(productId)
+                .orElseThrow(()-> new IllegalArgumentException("상품을 찾을 수 없습니다. "));
+
+        if (isHidden){
+            product.hide();
+        }
+        else{
+            product.show();
+        }
+
+        return ProductResponse.from(product);
+    }
+
     // 페이지 크기 검증  10/20/30
     private Pageable validatePageSize(Pageable pageable){
         int size = pageable.getPageSize();

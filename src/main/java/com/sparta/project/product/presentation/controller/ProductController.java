@@ -3,6 +3,7 @@ package com.sparta.project.product.presentation.controller;
 import com.sparta.project.product.application.service.ProductService;
 import com.sparta.project.product.presentation.dto.request.ProductCreateRequest;
 import com.sparta.project.product.presentation.dto.request.ProductUpdateRequest;
+import com.sparta.project.product.presentation.dto.request.ProductVisibilityRequest;
 import com.sparta.project.product.presentation.dto.response.ProductResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -56,6 +57,17 @@ public class ProductController {
             @Valid @RequestBody ProductUpdateRequest request
     ){
         ProductResponse response = productService.updateProduct(productId, request);
+        return ResponseEntity.ok(response);
+    }
+
+    // 상품 숨김-노출 전환
+    @PatchMapping("/{productId}/visibility")
+    public ResponseEntity<ProductResponse> updateVisibility(
+            @PathVariable UUID productId,
+            @Valid @RequestBody ProductVisibilityRequest request
+    ){
+        ProductResponse response = productService.updateVisibility(productId, request.getIsHidden());
+
         return ResponseEntity.ok(response);
     }
 }
