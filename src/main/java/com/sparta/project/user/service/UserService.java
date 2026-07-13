@@ -1,18 +1,17 @@
-package com.sparta.project.service;
+package com.sparta.project.user.service;
 
-import com.sparta.project.dto.LoginRequestDto;
-import com.sparta.project.dto.UserRequestDto;
-import com.sparta.project.dto.UserResponseDto;
-import com.sparta.project.entity.User;
-import com.sparta.project.entity.UserRoleEnum;
-import com.sparta.project.jwt.JwtUtil;
-import com.sparta.project.repository.UserRepository;
+import com.sparta.project.user.dto.LoginRequestDto;
+import com.sparta.project.user.dto.UserRequestDto;
+import com.sparta.project.user.dto.UserResponseDto;
+import com.sparta.project.user.entity.User;
+import com.sparta.project.user.entity.UserRoleEnum;
+import com.sparta.project.user.jwt.JwtUtil;
+import com.sparta.project.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

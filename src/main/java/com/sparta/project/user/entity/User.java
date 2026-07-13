@@ -1,20 +1,17 @@
-package com.sparta.project.entity;
+package com.sparta.project.user.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Getter
 @NoArgsConstructor
 @Table(name = "p_user")
-public class User extends com.sparta.project.entity.Timestamped {
+public class User extends Timestamped {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -44,7 +41,7 @@ public class User extends com.sparta.project.entity.Timestamped {
     private UserRoleEnum userRoleEnum;
 
 
-    public User(String username, String password, String nickname, String phone, com.sparta.project.entity.UserRoleEnum userRoleEnum) {
+    public User(String username, String password, String nickname, String phone, UserRoleEnum userRoleEnum) {
         this.username = username;
         this.password = password;
         this.nickname = nickname;

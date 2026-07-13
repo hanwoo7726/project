@@ -1,4 +1,4 @@
-package com.sparta.project.dto;
+package com.sparta.project.user.dto;
 
 import lombok.Getter;
 

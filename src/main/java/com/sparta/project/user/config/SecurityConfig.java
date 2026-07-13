@@ -1,21 +1,29 @@
-package com.sparta.project.security;
+package com.sparta.project.user.config;
 
-import com.sparta.project.filter.JwtFilter;
+import com.sparta.project.user.filter.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-public class SpringSecurity {
+public class SecurityConfig {
 
     private final JwtFilter jwtFilter;
+
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -27,7 +35,7 @@ public class SpringSecurity {
                 )
 
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/users/create", "/users/login").permitAll()
+                        .requestMatchers("/users", "/users/login").permitAll()
                         .anyRequest().authenticated()
                 )
 

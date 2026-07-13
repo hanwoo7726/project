@@ -1,6 +1,6 @@
-package com.sparta.project.filter;
+package com.sparta.project.user.filter;
 
-import com.sparta.project.jwt.JwtUtil;
+import com.sparta.project.user.jwt.JwtUtil;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

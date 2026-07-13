@@ -1,15 +1,13 @@
-package com.sparta.project.controller;
+package com.sparta.project.user.controller;
 
-import com.sparta.project.dto.LoginRequestDto;
-import com.sparta.project.dto.PasswordRequestDto;
-import com.sparta.project.dto.UserRequestDto;
-import com.sparta.project.dto.UserResponseDto;
-import com.sparta.project.entity.User;
-import com.sparta.project.repository.UserRepository;
-import com.sparta.project.service.UserService;
+import com.sparta.project.user.dto.LoginRequestDto;
+import com.sparta.project.user.dto.PasswordRequestDto;
+import com.sparta.project.user.dto.UserRequestDto;
+import com.sparta.project.user.dto.UserResponseDto;
+import com.sparta.project.user.repository.UserRepository;
+import com.sparta.project.user.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -71,10 +69,10 @@ public class UserController {
 
     @PostMapping("/login")
     public String loginUser(@Valid @RequestBody LoginRequestDto dto){
-        userService.loginUser(dto);
 
 
-        return "로그인 성공";
+
+        return userService.loginUser(dto);
 
     }
 

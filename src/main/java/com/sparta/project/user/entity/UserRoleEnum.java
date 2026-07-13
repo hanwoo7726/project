@@ -1,4 +1,4 @@
-package com.sparta.project.entity;
+package com.sparta.project.user.entity;
 
 public enum UserRoleEnum {
 

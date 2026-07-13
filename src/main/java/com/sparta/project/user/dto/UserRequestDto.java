@@ -1,4 +1,4 @@
-package com.sparta.project.dto;
+package com.sparta.project.user.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
