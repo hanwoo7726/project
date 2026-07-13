@@ -84,6 +84,13 @@ public class AddressService {
     Address findAddress = addressRepository.findByIdAndUser_IdAndDeletedAtIsNull(addressId, userId)
         .orElseThrow(() -> new CustomException(ErrorCode.ADDRESS_NOT_FOUND));
 
+    boolean isDefault = findAddress.isDefault();
+
+    if (isDefault) {
+      addressRepository.findFirstByUser_IdAndIdNotAndDeletedAtIsNullOrderByCreatedAtDesc(userId, addressId)
+          .ifPresent(Address::setDefaultAddress);
+    }
+
     findAddress.softDelete(userId);
 
     return new ResAddressDto(findAddress);

@@ -30,4 +30,6 @@ public interface AddressRepository extends JpaRepository<Address, UUID> {
   Optional<Address> findByIdAndUser_IdAndDeletedAtIsNull(UUID addressId, Long userId);
 
   List<Address> findAllByUser_IdAndDeletedAtIsNull(Long userId);
+
+  Optional<Address> findFirstByUser_IdAndIdNotAndDeletedAtIsNullOrderByCreatedAtDesc(Long userId, UUID addressId);
 }
