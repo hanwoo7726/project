@@ -3,12 +3,9 @@ package com.sparta.project.cart.domain.domain.entity;
 import com.sparta.project.global.exception.CustomException;
 import com.sparta.project.global.exception.ErrorCode;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.apache.catalina.Store;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +25,7 @@ public class Cart {
   @JoinColumn(name = "user_id", nullable = false, unique = true)
   private User user;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "store_id")
   private Store store;
 
@@ -54,7 +51,7 @@ public class Cart {
     this.store = null;
   }
 
-  public void addItem(Product findProduct, Integer quantity) {
+  public void addItem(Product product, Integer quantity) {
 
     Store productStore = product.getStore();
 
@@ -79,7 +76,29 @@ public class Cart {
     }
   }
 
+  public int totalPrice() {
+    return cartItems.stream()
+        .mapToInt(CartItem::cartItemPrice)
+        .sum();
+  }
 
+
+  public CartItem findItem(UUID cartItemId) {
+    return this.cartItems.stream()
+        .filter(cartItem -> cartItem.getId().equals(cartItemId))
+        .findFirst()
+        .orElseThrow(() -> new CustomException(ErrorCode.CART_ITEM_NOT_FOUND));
+  }
+
+
+  public void removeItem(CartItem findCartItem) {
+    this.cartItems.remove(findCartItem);
+    findCartItem.disconnectCart();
+
+    if (cartItems.isEmpty()) {
+      store = null;
+    }
+  }
 
 
   private boolean isSameStore(Store store) {
@@ -93,4 +112,7 @@ public class Cart {
   private void changeStore(Store store) {
     this.store = store;
   }
+
+
+
 }

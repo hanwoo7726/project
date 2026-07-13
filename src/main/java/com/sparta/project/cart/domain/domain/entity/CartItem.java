@@ -1,5 +1,7 @@
 package com.sparta.project.cart.domain.domain.entity;
 
+import com.sparta.project.global.exception.CustomException;
+import com.sparta.project.global.exception.ErrorCode;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -47,12 +49,25 @@ public class CartItem {
     this.quantity += quantity;
   }
 
+  public int cartItemPrice() {
+    return this.product.getPrice() * quantity;
+  }
 
+  public void disconnectCart() {
+    this.cart = null;
+  }
 
+  public void updateQuantity(Integer quantity) {
+    validatePositiveQuantity(quantity);
+    this.quantity = quantity;
+  }
 
   private void validatePositiveQuantity(int quantity) {
     if (quantity < 1) {
-      throw new IllegalArgumentException("장바구니 상품 수량은 1개 이상이어야 합니다.");
+      throw new CustomException(ErrorCode.QUANTITY_INVALID);
     }
   }
+
+
+
 }
