@@ -1,9 +1,14 @@
 package com.sparta.project.cart.domain.domain.entity;
 
+import com.sparta.project.global.exception.CustomException;
+import com.sparta.project.global.exception.ErrorCode;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.apache.catalina.Store;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,5 +41,56 @@ public class Cart {
 
   public static Cart create(User user) {
     return new Cart(user);
+  }
+
+
+  public boolean containsDifferentStore(Store store) {
+    return hasItems() && !isSameStore(store);
+  }
+
+
+  public void clearCart() {
+    this.cartItems.clear();
+    this.store = null;
+  }
+
+  public void addItem(Product findProduct, Integer quantity) {
+
+    Store productStore = product.getStore();
+
+    if (this.cartItems.isEmpty()) {
+      changeStore(productStore);
+    }
+
+    if (!isSameStore(productStore)) {
+      throw new CustomException(ErrorCode.CART_STORE_CONFLICT);
+    }
+
+    CartItem findItem = this.cartItems.stream()
+        .filter(item -> item.getProduct().getId().equals(product.getId()))
+        .findFirst()
+        .orElse(null);
+
+    if (findItem != null) {
+      findItem.increaseQuantity(quantity);
+    } else {
+      CartItem cartItem = CartItem.create(this, product, quantity);
+      this.cartItems.add(cartItem);
+    }
+  }
+
+
+
+
+  private boolean isSameStore(Store store) {
+    return this.store != null && this.store.getId().equals(store.getId());
+  }
+
+  private boolean hasItems() {
+    return !cartItems.isEmpty();
+  }
+
+  private void changeStore(Store store) {
+    this.store = store;
   }
 }

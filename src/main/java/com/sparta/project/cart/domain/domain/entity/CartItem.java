@@ -42,6 +42,11 @@ public class CartItem {
     return new CartItem(cart, product, quantity);
   }
 
+  public void increaseQuantity(int quantity) {
+    validatePositiveQuantity(quantity);
+    this.quantity += quantity;
+  }
+
 
 
 
@@ -50,8 +55,4 @@ public class CartItem {
       throw new IllegalArgumentException("장바구니 상품 수량은 1개 이상이어야 합니다.");
     }
   }
-
-
-
-
 }
