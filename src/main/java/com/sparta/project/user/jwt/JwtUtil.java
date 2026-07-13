@@ -42,7 +42,7 @@ public class JwtUtil {
 
         return BEARER_PREFIX + Jwts.builder()
                 .subject(username)
-                .claim(AUTHORIZATION_KEY, role)
+                .claim(AUTHORIZATION_KEY, role.getAuthority())
                 .issuedAt(date)
                 .expiration(new Date(date.getTime() + TOKEN_TIME))
                 .signWith(secretKey)
