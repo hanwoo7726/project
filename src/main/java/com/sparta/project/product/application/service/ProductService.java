@@ -28,13 +28,22 @@ public class ProductService {
     // 상품 등록
     @Transactional
     public ProductResponse createProduct(ProductCreateRequest request) {
+        Integer displayOrder = request.getDisplayOrder();
+
+        if(displayOrder == null){
+            displayOrder = productRepository.findMaxDisplayOrder(request.getStoreId()) + 1;
+        }
+        else{
+            productRepository.shiftDisplayOrder(request.getStoreId(), displayOrder);
+        }
+
         // 1. 요청 DTO -> Entity 생성
         Product product = Product.create(
                 request.getStoreId(),
                 request.getName(),
                 request.getPrice(),
                 request.getDescription(),
-                request.getDisplayOrder()
+                displayOrder
         );
         // 2. Save
         Product savedProduct = productRepository.save(product);
