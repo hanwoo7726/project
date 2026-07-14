@@ -21,6 +21,7 @@ public class User extends Timestamped {
             regexp = "^[a-z0-9]{4,10}$",
             message = "아이디는 4자 이상 10자 이하의 영어 소문자와 숫자만 가능합니다."
     )
+    @Column(nullable = false)
     private String username;
 
     @NotBlank(message = "비밀번호는 필수 입니다.")

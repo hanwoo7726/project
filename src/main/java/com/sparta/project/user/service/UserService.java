@@ -52,7 +52,7 @@ public class UserService {
 
     // 회원 목록 전체 조회
     public List<UserResponseDto> findAllUsers(){
-        List<User> user = userRepository.findAll();
+        List<User> user = userRepository.findAllByDeletedAtIsNull();
 
 
         return user.stream()
@@ -79,7 +79,7 @@ public class UserService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("없는 유저 입니다."));
 
-        user.softDelete(user.getNickname());
+        user.softDelete(username);
     }
 
     // 로그인 기능
