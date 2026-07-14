@@ -1,6 +1,7 @@
 package com.sparta.project.cart.dto.response;
 
 import com.sparta.project.cart.entity.CartItem;
+import com.sparta.project.product.domain.entity.Product;
 import lombok.Getter;
 
 import java.util.UUID;

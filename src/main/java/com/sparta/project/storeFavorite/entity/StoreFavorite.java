@@ -1,5 +1,7 @@
 package com.sparta.project.storeFavorite.entity;
 
+import com.sparta.project.store.entity.Store;
+import com.sparta.project.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

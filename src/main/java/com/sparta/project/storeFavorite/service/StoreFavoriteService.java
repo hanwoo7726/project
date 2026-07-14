@@ -1,9 +1,13 @@
 package com.sparta.project.storeFavorite.service;
 
+import com.sparta.project.store.entity.Store;
+import com.sparta.project.store.repository.StoreRepository;
 import com.sparta.project.storeFavorite.entity.StoreFavorite;
 import com.sparta.project.storeFavorite.repository.StoreFavoriteRepository;
 import com.sparta.project.storeFavorite.dto.ResStoreFavoriteDto;
 import com.sparta.project.storeFavorite.dto.ResStoreFavoriteStatusDto;
+import com.sparta.project.user.entity.User;
+import com.sparta.project.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

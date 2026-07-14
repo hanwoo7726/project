@@ -2,6 +2,9 @@ package com.sparta.project.cart.entity;
 
 import com.sparta.project.global.exception.CustomException;
 import com.sparta.project.global.exception.ErrorCode;
+import com.sparta.project.product.domain.entity.Product;
+import com.sparta.project.store.entity.Store;
+import com.sparta.project.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

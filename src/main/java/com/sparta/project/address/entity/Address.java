@@ -3,6 +3,7 @@ package com.sparta.project.address.entity;
 import com.sparta.project.address.dto.request.ReqCreateAddressDto;
 import com.sparta.project.address.dto.request.ReqUpdateAddressDto;
 import com.sparta.project.global.domain.BaseEntity;
+import com.sparta.project.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

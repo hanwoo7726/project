@@ -1,6 +1,7 @@
 package com.sparta.project.cart.dto.response;
 
 import com.sparta.project.cart.entity.Cart;
+import com.sparta.project.store.entity.Store;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

@@ -1,17 +1,15 @@
 package com.sparta.project.address.controller;
 
-import com.sparta.project.address.service.AddressService;
 import com.sparta.project.address.dto.request.ReqCreateAddressDto;
 import com.sparta.project.address.dto.request.ReqUpdateAddressDto;
 import com.sparta.project.address.dto.response.ResAddressDto;
+import com.sparta.project.address.service.AddressService;
 import com.sparta.project.global.infrastructure.presentation.response.ApiResponse;
-import com.sparta.project.user.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
