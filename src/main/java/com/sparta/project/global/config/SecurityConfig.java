@@ -1,6 +1,6 @@
-package com.sparta.project.user.config;
+package com.sparta.project.global.config;
 
-import com.sparta.project.user.filter.JwtFilter;
+import com.sparta.project.auth.filter.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,12 +38,13 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // 로그인, 회원가입
                         .requestMatchers(HttpMethod.POST, "/users").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/users/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
 
                         //사용자
                         .requestMatchers(HttpMethod.PUT, "/users/me/password").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/users/me/delete").authenticated()
 
+                        .requestMatchers(HttpMethod.POST, "/auth/reissue").permitAll()
                         // 가맹점 관리
 
 
