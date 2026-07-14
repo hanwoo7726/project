@@ -1,7 +1,6 @@
 package com.sparta.project.product.controller;
 
 import com.sparta.project.product.service.ProductService;
-import com.sparta.project.product.ai.GeminiClient;
 import com.sparta.project.product.dto.request.ProductCreateRequest;
 import com.sparta.project.product.dto.request.ProductUpdateRequest;
 import com.sparta.project.product.dto.request.ProductVisibilityRequest;
@@ -22,7 +21,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ProductController {
     private final ProductService productService;
-    private final GeminiClient geminiClient;
 
     // 상품 등록
     @PostMapping
@@ -70,11 +68,5 @@ public class ProductController {
         ProductResponse response = productService.updateVisibility(productId, request.getIsHidden());
 
         return ResponseEntity.ok(response);
-    }
-
-    // (ai 생성 임시 테스트용)
-    @GetMapping("/ai-test")
-    public ResponseEntity<String> aiTest(@RequestParam String prompt){
-        return ResponseEntity.ok(geminiClient.generate(prompt));
     }
 }
