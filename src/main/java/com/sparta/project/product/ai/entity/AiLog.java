@@ -1,4 +1,4 @@
-package com.sparta.project.product.infrastructure.ai.entity;
+package com.sparta.project.product.ai.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;

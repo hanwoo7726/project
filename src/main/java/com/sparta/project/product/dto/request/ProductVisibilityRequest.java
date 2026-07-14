@@ -1,4 +1,4 @@
-package com.sparta.project.product.presentation.dto.request;
+package com.sparta.project.product.dto.request;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;

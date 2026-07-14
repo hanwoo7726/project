@@ -1,7 +1,7 @@
-package com.sparta.project.product.infrastructure.ai;
+package com.sparta.project.product.ai;
 
-import com.sparta.project.product.infrastructure.ai.dto.GeminiRequest;
-import com.sparta.project.product.infrastructure.ai.dto.GeminiResponse;
+import com.sparta.project.product.ai.dto.GeminiRequest;
+import com.sparta.project.product.ai.dto.GeminiResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;

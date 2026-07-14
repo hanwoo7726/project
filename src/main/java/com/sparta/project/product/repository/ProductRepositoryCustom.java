@@ -1,6 +1,6 @@
-package com.sparta.project.product.domain.repository;
+package com.sparta.project.product.repository;
 
-import com.sparta.project.product.domain.entity.Product;
+import com.sparta.project.product.entity.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

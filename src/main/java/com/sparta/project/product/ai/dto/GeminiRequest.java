@@ -1,4 +1,4 @@
-package com.sparta.project.product.infrastructure.ai.dto;
+package com.sparta.project.product.ai.dto;
 
 import java.util.List;
 

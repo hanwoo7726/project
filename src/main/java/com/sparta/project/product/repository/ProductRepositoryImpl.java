@@ -1,10 +1,10 @@
-package com.sparta.project.product.domain.repository;
+package com.sparta.project.product.repository;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.sparta.project.product.domain.entity.Product;
-import com.sparta.project.product.domain.entity.QProduct;
+import com.sparta.project.product.entity.Product;
+import com.sparta.project.product.entity.QProduct;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;

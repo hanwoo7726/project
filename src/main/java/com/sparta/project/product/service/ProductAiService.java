@@ -1,9 +1,9 @@
-package com.sparta.project.product.application.service;
+package com.sparta.project.product.service;
 
 
-import com.sparta.project.product.infrastructure.ai.GeminiClient;
-import com.sparta.project.product.infrastructure.ai.entity.AiLog;
-import com.sparta.project.product.infrastructure.ai.repository.AiLogRepository;
+import com.sparta.project.product.ai.GeminiClient;
+import com.sparta.project.product.ai.entity.AiLog;
+import com.sparta.project.product.ai.repository.AiLogRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,6 +1,6 @@
-package com.sparta.project.product.presentation.dto.response;
+package com.sparta.project.product.dto.response;
 
-import com.sparta.project.product.domain.entity.Product;
+import com.sparta.project.product.entity.Product;
 import lombok.Getter;
 
 import java.util.UUID;

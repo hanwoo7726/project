@@ -1,11 +1,11 @@
-package com.sparta.project.product.presentation.controller;
+package com.sparta.project.product.controller;
 
-import com.sparta.project.product.application.service.ProductService;
-import com.sparta.project.product.infrastructure.ai.GeminiClient;
-import com.sparta.project.product.presentation.dto.request.ProductCreateRequest;
-import com.sparta.project.product.presentation.dto.request.ProductUpdateRequest;
-import com.sparta.project.product.presentation.dto.request.ProductVisibilityRequest;
-import com.sparta.project.product.presentation.dto.response.ProductResponse;
+import com.sparta.project.product.service.ProductService;
+import com.sparta.project.product.ai.GeminiClient;
+import com.sparta.project.product.dto.request.ProductCreateRequest;
+import com.sparta.project.product.dto.request.ProductUpdateRequest;
+import com.sparta.project.product.dto.request.ProductVisibilityRequest;
+import com.sparta.project.product.dto.response.ProductResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

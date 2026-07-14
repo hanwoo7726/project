@@ -1,10 +1,10 @@
-package com.sparta.project.product.application.service;
+package com.sparta.project.product.service;
 
-import com.sparta.project.product.domain.entity.Product;
-import com.sparta.project.product.domain.repository.ProductRepository;
-import com.sparta.project.product.presentation.dto.request.ProductCreateRequest;
-import com.sparta.project.product.presentation.dto.request.ProductUpdateRequest;
-import com.sparta.project.product.presentation.dto.response.ProductResponse;
+import com.sparta.project.product.entity.Product;
+import com.sparta.project.product.repository.ProductRepository;
+import com.sparta.project.product.dto.request.ProductCreateRequest;
+import com.sparta.project.product.dto.request.ProductUpdateRequest;
+import com.sparta.project.product.dto.response.ProductResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
