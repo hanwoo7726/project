@@ -8,7 +8,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -16,7 +15,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.List;
+
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
@@ -50,7 +49,6 @@ public class JwtFilter extends OncePerRequestFilter {
                 Claims info = jwtUtil.getUserInfoFromToken(token);
 
                 String username = info.getSubject();
-                String authority = info.get(JwtUtil.AUTHORIZATION_KEY, String.class);
 
                 UserDetails userDetails = principalDetailsService.loadUserByUsername(username);
 
@@ -64,8 +62,9 @@ public class JwtFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
             } catch (Exception e) {
+                response.setContentType("application/json;charset=UTF-8");
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.getWriter().write("JWT Token Error");
+                response.getWriter().write("{\"message\":\"유효하지 않은 인증 토큰입니다.\"}");
                 return;
             }
         }

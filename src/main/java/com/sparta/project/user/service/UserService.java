@@ -65,7 +65,7 @@ public class UserService {
     // 회원 정보 변경
     @Transactional
     public void updatePassword(String username, String password){
-        User user = userRepository.findByUsername(username)
+        User user = userRepository.findByUsernameAndDeletedAtIsNull(username)
                 .orElseThrow(() -> new RuntimeException("없는 유저 입니다."));
 
         String encodedPassword = passwordEncoder.encode(password);
@@ -76,7 +76,7 @@ public class UserService {
     // 회원 탈퇴 기능
     @Transactional
     public void softDelete(String username){
-        User user = userRepository.findByUsername(username)
+        User user = userRepository.findByUsernameAndDeletedAtIsNull(username)
                 .orElseThrow(() -> new RuntimeException("없는 유저 입니다."));
 
         user.softDelete(username);

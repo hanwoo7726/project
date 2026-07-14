@@ -4,10 +4,11 @@ import com.sparta.project.user.dto.LoginRequestDto;
 import com.sparta.project.user.dto.PasswordRequestDto;
 import com.sparta.project.user.dto.UserRequestDto;
 import com.sparta.project.user.dto.UserResponseDto;
-import com.sparta.project.user.repository.UserRepository;
+import com.sparta.project.user.jwt.JwtUtil;
 import com.sparta.project.user.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +22,6 @@ public class UserController {
     // CRUD 기능 만들기
     // 유저 생성, 조회, 수정, 삭제
 
-    private final UserRepository userRepository;
     private final UserService userService;
 
 
@@ -70,23 +70,16 @@ public class UserController {
     // 로그인
 
     @PostMapping("/login")
-    public String loginUser(@Valid @RequestBody LoginRequestDto dto){
+    public ResponseEntity<Void> loginUser(@Valid @RequestBody LoginRequestDto dto){
+        String token = userService.loginUser(dto);
 
 
 
-
-        return userService.loginUser(dto);
+        return ResponseEntity.ok()
+                .header(JwtUtil.AUTHORIZATION_HEADER, token)
+                .build();
 
     }
-
-
-
-
-
-
-
-
-
 
 
 
