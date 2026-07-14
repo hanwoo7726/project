@@ -113,6 +113,11 @@ public class Address extends BaseEntity {
 
   }
 
+  public void unSetDefaultAddress() {
+    this.isDefault = false;
+  }
+
+
   public void setDefaultAddress() {
     this.isDefault = true;
   }

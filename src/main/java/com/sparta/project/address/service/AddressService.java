@@ -27,7 +27,7 @@ public class AddressService {
   /*생성*/
   @Transactional
   public ResAddressDto createAddress(ReqCreateAddressDto reqDto, Long userId) {
-    User findUser = userRepository.findByUsernameAndDeletedAtIsNull(userId)
+    User findUser = userRepository.findByIdAndDeletedAtIsNull(userId)
         .orElseThrow(() -> new RuntimeException("User not found"));
 
     boolean hasAddress = addressRepository.existsByUser_IdAndIsDefaultIsTrueAndDeletedAtIsNull(userId);
@@ -74,7 +74,13 @@ public class AddressService {
     Address findAddress = addressRepository.findByIdAndUser_IdAndDeletedAtIsNull(addressId, userId)
         .orElseThrow(() -> new CustomException(ErrorCode.ADDRESS_NOT_FOUND));
 
-    addressRepository.unsetDefaultAddressesByIdAndUserIdAndDeletedAtIsNull(addressId, userId);
+    if (findAddress.isDefault()) {
+      return new ResAddressDto(findAddress);
+    }
+
+    addressRepository
+        .findFirstByUser_IdAndIsDefaultTrueAndDeletedAtIsNull(userId)
+        .ifPresent(Address::unSetDefaultAddress);
 
     findAddress.setDefaultAddress();
 

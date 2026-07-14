@@ -6,6 +6,7 @@ import com.sparta.project.cart.dto.request.ReqUpdateCartItemQuantityDto;
 import com.sparta.project.cart.dto.response.ResCartDto;
 import com.sparta.project.cart.dto.response.ResUpdateCartItemQuantityDto;
 import com.sparta.project.global.infrastructure.presentation.ApiResponse;
+import com.sparta.project.user.security.PrincipalDetails;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,10 +26,10 @@ public class CartController {
   // 장바구니 아이템 추가
   @PostMapping("/items")
   public ResponseEntity<ApiResponse<ResCartDto>> addItemToCart(
-      @AuthenticationPrincipal UserDetailsImpl userDetails,
+      @AuthenticationPrincipal PrincipalDetails userDetails,
       @RequestBody @Valid ReqAddCartItemDto reqDto
   ) {
-    ResCartDto cartDto = cartService.addCartItem(userDetails.getUserId(), reqDto);
+    ResCartDto cartDto = cartService.addCartItem(userDetails.getUser().getId(), reqDto);
 
     return ResponseEntity
         .status(HttpStatus.CREATED)
@@ -42,9 +43,9 @@ public class CartController {
   // 장바구니 보기
   @GetMapping
   public ResponseEntity<ApiResponse<ResCartDto>> getCart(
-      @AuthenticationPrincipal UserDetailsImpl userDetails
+      @AuthenticationPrincipal PrincipalDetails userDetails
   ) {
-    ResCartDto cartDto = cartService.getCart(userDetails.getUserId());
+    ResCartDto cartDto = cartService.getCart(userDetails.getUser().getId());
 
     return ResponseEntity
         .status(HttpStatus.OK)
@@ -58,13 +59,13 @@ public class CartController {
   // 장바구니 수량 수정
   @PatchMapping("/{cartItemId}")
   public ResponseEntity<ApiResponse<ResUpdateCartItemQuantityDto>> updateCartItemQuantity(
-      @AuthenticationPrincipal UserDetailsImpl userDetails,
+      @AuthenticationPrincipal PrincipalDetails userDetails,
       @PathVariable UUID cartItemId,
       @RequestBody @Valid ReqUpdateCartItemQuantityDto reqDto
   ) {
 
     ResUpdateCartItemQuantityDto resDto = cartService.updateCartItemQuantity(
-        userDetails.getUserId(),
+        userDetails.getUser().getId(),
         cartItemId,
         reqDto.getQuantity()
     );
@@ -81,10 +82,10 @@ public class CartController {
   //장바구니 아이템 삭제
   @DeleteMapping("/{cartItemId}")
   public ResponseEntity<ApiResponse<Void>> deleteCartItem(
-      @AuthenticationPrincipal UserDetailsImpl userDetails,
+      @AuthenticationPrincipal PrincipalDetails userDetails,
       @PathVariable UUID cartItemId
   ) {
-    cartService.deleteCartItem(userDetails.getUserId(), cartItemId);
+    cartService.deleteCartItem(userDetails.getUser().getId(), cartItemId);
 
     return ResponseEntity
         .status(HttpStatus.OK)
@@ -94,9 +95,9 @@ public class CartController {
   //장바구니 아이템 전체 비우기
   @DeleteMapping
   public ResponseEntity<ApiResponse<Void>> clearCart(
-      @AuthenticationPrincipal UserDetailsImpl userDetails
+      @AuthenticationPrincipal PrincipalDetails userDetails
   ) {
-    cartService.clearCart(userDetails.getUserId());
+    cartService.clearCart(userDetails.getUser().getId());
 
     return ResponseEntity
         .status(HttpStatus.OK)

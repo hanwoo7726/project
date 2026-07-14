@@ -5,6 +5,7 @@ import com.sparta.project.address.dto.request.ReqUpdateAddressDto;
 import com.sparta.project.address.dto.response.ResAddressDto;
 import com.sparta.project.address.service.AddressService;
 import com.sparta.project.global.infrastructure.presentation.response.ApiResponse;
+import com.sparta.project.user.security.PrincipalDetails;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,9 +27,9 @@ public class AddressController {
   @PostMapping
   public ResponseEntity<ApiResponse<ResAddressDto>> createAddress(
       @RequestBody @Valid ReqCreateAddressDto reqDto,
-      @AuthenticationPrincipal UserDetailsImpl userDetails
+      @AuthenticationPrincipal PrincipalDetails userDetails
   ) {
-    ResAddressDto resDto = addressService.createAddress(reqDto, userDetails.getUserId());
+    ResAddressDto resDto = addressService.createAddress(reqDto, userDetails.getUser().getId());
 
     return ResponseEntity
         .status(HttpStatus.CREATED)
@@ -42,10 +43,10 @@ public class AddressController {
   @GetMapping("/{addressId}")
   public ResponseEntity<ApiResponse<ResAddressDto>> getAddress(
       @PathVariable UUID addressId,
-      @AuthenticationPrincipal UserDetailsImpl userDetails
+      @AuthenticationPrincipal PrincipalDetails userDetails
       ) {
 
-    ResAddressDto resDto = addressService.getAddress(addressId, userDetails.getUserId());
+    ResAddressDto resDto = addressService.getAddress(addressId, userDetails.getUser().getId());
 
     return ResponseEntity
         .status(HttpStatus.OK)
@@ -58,9 +59,9 @@ public class AddressController {
   // 주소 전체 조회
   @GetMapping
   public ResponseEntity<ApiResponse<List<ResAddressDto>>> getAddresses(
-      @AuthenticationPrincipal UserDetailsImpl userDetails
+      @AuthenticationPrincipal PrincipalDetails userDetails
   ) {
-    List<ResAddressDto> addresses = addressService.getAddresses(userDetails.getUserId());
+    List<ResAddressDto> addresses = addressService.getAddresses(userDetails.getUser().getId());
 
     return ResponseEntity.status(HttpStatus.OK)
         .body(ApiResponse.success(
@@ -73,11 +74,11 @@ public class AddressController {
   @PatchMapping("/{addressId}")
   public ResponseEntity<ApiResponse<ResAddressDto>> updateAddress(
       @PathVariable UUID addressId,
-      @AuthenticationPrincipal UserDetailsImpl userDetails,
+      @AuthenticationPrincipal PrincipalDetails userDetails,
       @RequestBody @Valid ReqUpdateAddressDto reqDto
   ) {
 
-    ResAddressDto resDto = addressService.updateAddress(addressId, reqDto, userDetails.getUserId());
+    ResAddressDto resDto = addressService.updateAddress(addressId, reqDto, userDetails.getUser().getId());
 
     return ResponseEntity.status(HttpStatus.OK)
         .body(ApiResponse.success(
@@ -90,10 +91,10 @@ public class AddressController {
   @PatchMapping("/{addressId}/default")
   public ResponseEntity<ApiResponse<ResAddressDto>> updateDefaultAddress(
       @PathVariable UUID addressId,
-      @AuthenticationPrincipal UserDetailsImpl userDetails
+      @AuthenticationPrincipal PrincipalDetails userDetails
   ) {
 
-    ResAddressDto resDto = addressService.updateDefaultAddress(addressId, userDetails.getUserId());
+    ResAddressDto resDto = addressService.updateDefaultAddress(addressId, userDetails.getUser().getId());
 
     return ResponseEntity.status(HttpStatus.OK)
         .body(ApiResponse.success(
@@ -106,9 +107,9 @@ public class AddressController {
   @DeleteMapping("/{addressId}")
   public ResponseEntity<ApiResponse<ResAddressDto>> deleteAddress(
       @PathVariable UUID addressId,
-      @AuthenticationPrincipal UserDetailsImpl userDetails
+      @AuthenticationPrincipal PrincipalDetails userDetails
   ) {
-    ResAddressDto resDto = addressService.deleteAddress(addressId, userDetails.getUserId());
+    ResAddressDto resDto = addressService.deleteAddress(addressId, userDetails.getUser().getId());
 
     return ResponseEntity.status(HttpStatus.OK)
         .body(ApiResponse.success(
