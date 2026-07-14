@@ -1,9 +1,9 @@
-package com.sparta.project.product.application.service;
+package com.sparta.project.product.service;
 
-import com.sparta.project.product.domain.entity.Product;
-import com.sparta.project.product.domain.repository.ProductRepository;
-import com.sparta.project.product.presentation.dto.request.ProductCreateRequest;
-import com.sparta.project.product.presentation.dto.response.ProductResponse;
+import com.sparta.project.product.entity.Product;
+import com.sparta.project.product.repository.ProductRepository;
+import com.sparta.project.product.dto.request.ProductCreateRequest;
+import com.sparta.project.product.dto.response.ProductResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
