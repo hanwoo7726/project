@@ -23,13 +23,14 @@ public class ProductService {
     // 페이지 크기
     private static final int DEFAULT_PAGE_SIZE = 10;
     private static final List<Integer> ALLOWED_PAGE_SIZES = List.of(10, 20, 30);
+    private final ProductAiService productAiService;
 
 
     // 상품 등록
     @Transactional
     public ProductResponse createProduct(ProductCreateRequest request) {
+        // 1. displayOrder 계산
         Integer displayOrder = request.getDisplayOrder();
-
         if(displayOrder == null){
             displayOrder = productRepository.findMaxDisplayOrder(request.getStoreId()) + 1;
         }
@@ -37,17 +38,30 @@ public class ProductService {
             productRepository.shiftDisplayOrder(request.getStoreId(), displayOrder);
         }
 
-        // 1. 요청 DTO -> Entity 생성
+        // 2. 상품 먼저 생성
+        String description = request.getDescription();
+
         Product product = Product.create(
                 request.getStoreId(),
                 request.getName(),
                 request.getPrice(),
-                request.getDescription(),
+                description,
                 displayOrder
         );
-        // 2. Save
         Product savedProduct = productRepository.save(product);
-        // 3. Entity -> Response DTO 변환 후 반환
+
+        // 3. AI 생성 요청이면 설명 생성해서 갱신
+        if(Boolean.TRUE.equals(request.getAiGenerate())){
+            String aiDescription = productAiService.generateDescription(
+                    savedProduct.getProductId(),
+                    request.getAiPrompt(),
+                    null    // createdBy용
+            );
+            if(aiDescription != null){
+                savedProduct.updateDescription(aiDescription);
+            }
+        }
+
         return ProductResponse.from(savedProduct);
     }
 

@@ -75,5 +75,10 @@ public class Product extends BaseEntity {
     public void show(){
         this.isHidden = false;
     }
+
+    // AI 생성 설명 반영
+    public void updateDescription(String description){
+        this.description = description;
+    }
 }
 

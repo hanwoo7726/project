@@ -3,6 +3,7 @@ package com.sparta.project.product.presentation.dto.request;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 
 import java.util.UUID;
@@ -23,4 +24,9 @@ public class ProductCreateRequest {
     private String description;
 
     private Integer displayOrder;
+
+    private Boolean aiGenerate; // AI 생성 여부
+
+    @Size(max = 100, message = "AI 프롬프트는 100자 이하여야 합니다. ")
+    private String aiPrompt; // AI 프롬프트
 }
