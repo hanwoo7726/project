@@ -1,4 +1,4 @@
-package com.sparta.project.user.dto;
+package com.sparta.project.auth.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;

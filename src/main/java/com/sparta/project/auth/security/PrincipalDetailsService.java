@@ -1,4 +1,4 @@
-package com.sparta.project.user.security;
+package com.sparta.project.auth.security;
 
 import com.sparta.project.user.entity.User;
 import com.sparta.project.user.repository.UserRepository;

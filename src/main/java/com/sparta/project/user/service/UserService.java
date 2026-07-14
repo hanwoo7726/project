@@ -1,11 +1,11 @@
 package com.sparta.project.user.service;
 
-import com.sparta.project.user.dto.LoginRequestDto;
+import com.sparta.project.auth.dto.LoginRequestDto;
 import com.sparta.project.user.dto.UserRequestDto;
 import com.sparta.project.user.dto.UserResponseDto;
 import com.sparta.project.user.entity.User;
 import com.sparta.project.user.entity.UserRoleEnum;
-import com.sparta.project.user.jwt.JwtUtil;
+import com.sparta.project.auth.jwt.JwtUtil;
 import com.sparta.project.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -90,13 +90,9 @@ public class UserService {
         if(!passwordEncoder.matches(dto.getPassword(), user.getPassword())){
             throw new RuntimeException("비밀번호가 일치하지 않습니다.");
 
-
         }
 
         return jwtUtil.createToken(user.getUsername(), user.getUserRoleEnum());
-
-
-
 
     }
 
