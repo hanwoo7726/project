@@ -8,6 +8,7 @@ import com.sparta.project.user.repository.UserRepository;
 import com.sparta.project.user.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,7 +31,6 @@ public class UserController {
 
 
 
-
         return userService.findAllUsers();
     }
 
@@ -38,15 +38,17 @@ public class UserController {
     @PostMapping()
     public UserResponseDto createUser(@Valid  @RequestBody UserRequestDto userRequestDto){
 
-        return userService.createUser(userRequestDto);
 
+
+
+        return userService.createUser(userRequestDto);
     }
 
     // 비밀번호 변경
-    @PutMapping("/{id}")
-    public String updatePassword(@PathVariable Long id,
+    @PutMapping("/me/password")
+    public String updatePassword(Authentication authentication,
                                  @Valid @RequestBody PasswordRequestDto dto){
-        userService.updatePassword(id, dto.getPassword());
+        userService.updatePassword(authentication.getName(), dto.getPassword());
 
 
 
@@ -56,9 +58,9 @@ public class UserController {
     }
 
     // 유저 삭제
-    @DeleteMapping("/{id}")
-    public String deleteUser(@PathVariable Long id){
-        userService.softDelete(id);
+    @DeleteMapping("/me/delete")
+    public String deleteUser(Authentication authentication){
+        userService.softDelete(authentication.getName());
 
 
         return "삭제 완료";
@@ -69,6 +71,7 @@ public class UserController {
 
     @PostMapping("/login")
     public String loginUser(@Valid @RequestBody LoginRequestDto dto){
+
 
 
 

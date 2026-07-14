@@ -26,6 +26,18 @@ public class UserService {
     // 회원 가입
     public UserResponseDto createUser(UserRequestDto userRequestDto){
 
+        if(userRepository.existsByUsername(userRequestDto.getUsername())){
+            throw new RuntimeException("이미 존재하는 아이디입니다.");
+        }
+
+        if(userRepository.existsByNickname(userRequestDto.getNickname())){
+            throw new RuntimeException("이미 존재하는 닉네임입니다.");
+
+        }
+
+
+
+
         String encodePassword = passwordEncoder.encode(userRequestDto.getPassword());
 
         User user = new User(userRequestDto.getUsername(),encodePassword
@@ -52,8 +64,8 @@ public class UserService {
 
     // 회원 정보 변경
     @Transactional
-    public void updatePassword(Long id, String password){
-        User user = userRepository.findById(id)
+    public void updatePassword(String username, String password){
+        User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("없는 유저 입니다."));
 
         String encodedPassword = passwordEncoder.encode(password);
@@ -63,8 +75,8 @@ public class UserService {
 
     // 회원 탈퇴 기능
     @Transactional
-    public void softDelete(Long id){
-        User user = userRepository.findById(id)
+    public void softDelete(String username){
+        User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("없는 유저 입니다."));
 
         user.softDelete(user.getNickname());
@@ -72,7 +84,7 @@ public class UserService {
 
     // 로그인 기능
     public String loginUser(LoginRequestDto dto){
-        User user = userRepository.findByUsername(dto.getUsername())
+        User user = userRepository.findByUsernameAndDeletedAtIsNull(dto.getUsername())
                 .orElseThrow(() -> new RuntimeException("존재하지 않는 회원 입니다."));
 
         if(!passwordEncoder.matches(dto.getPassword(), user.getPassword())){

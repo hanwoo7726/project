@@ -40,6 +40,10 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/users").permitAll()
                         .requestMatchers(HttpMethod.POST, "/users/login").permitAll()
 
+                        //사용자
+                        .requestMatchers(HttpMethod.PUT, "/users/me/password").hasRole("USER")
+                        .requestMatchers(HttpMethod.DELETE, "/users/me/delete").hasRole("USER")
+
                         // 가맹점 관리
 
                         // 관리자
