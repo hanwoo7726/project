@@ -1,14 +1,11 @@
 package com.sparta.project.user.controller;
 
-import com.sparta.project.auth.dto.LoginRequestDto;
 import com.sparta.project.user.dto.PasswordRequestDto;
 import com.sparta.project.user.dto.UserRequestDto;
 import com.sparta.project.user.dto.UserResponseDto;
-import com.sparta.project.auth.jwt.JwtUtil;
 import com.sparta.project.user.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,9 +48,6 @@ public class UserController {
         userService.softDelete(authentication.getName());
         return "삭제 완료";
     }
-
-
-
 
 
 }
