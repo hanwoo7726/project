@@ -44,6 +44,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/users/me/password").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/users/me/delete").authenticated()
 
+                        .requestMatchers(HttpMethod.POST, "/auth/reissue").permitAll()
                         // 가맹점 관리
 
 

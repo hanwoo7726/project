@@ -22,6 +22,7 @@ public class AuthService {
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
 
+    @Transactional
     public TokenResponseDto loginUser(LoginRequestDto dto) {
         User user = userRepository.findByUsernameAndDeletedAtIsNull(dto.getUsername()).orElseThrow(() -> new RuntimeException("존재하지 않는 회원 입니다."));
 

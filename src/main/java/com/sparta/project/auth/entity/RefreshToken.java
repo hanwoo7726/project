@@ -18,7 +18,7 @@ public class RefreshToken {
     @Column(nullable = false, unique = true)
     String username;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 1000)
     String token;
 
     private LocalDateTime expiresAt;

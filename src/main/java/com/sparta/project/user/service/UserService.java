@@ -1,11 +1,9 @@
 package com.sparta.project.user.service;
 
-import com.sparta.project.auth.dto.LoginRequestDto;
 import com.sparta.project.user.dto.UserRequestDto;
 import com.sparta.project.user.dto.UserResponseDto;
 import com.sparta.project.user.entity.User;
 import com.sparta.project.user.entity.UserRoleEnum;
-import com.sparta.project.auth.jwt.JwtUtil;
 import com.sparta.project.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,7 +17,6 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
 
 
@@ -82,19 +79,7 @@ public class UserService {
         user.softDelete(username);
     }
 
-    // 로그인 기능
-    public String loginUser(LoginRequestDto dto){
-        User user = userRepository.findByUsernameAndDeletedAtIsNull(dto.getUsername())
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 회원 입니다."));
 
-        if(!passwordEncoder.matches(dto.getPassword(), user.getPassword())){
-            throw new RuntimeException("비밀번호가 일치하지 않습니다.");
-
-        }
-
-        return jwtUtil.createToken(user.getUsername(), user.getUserRoleEnum());
-
-    }
 
 
 

@@ -53,19 +53,6 @@ public class UserController {
     }
 
 
-    // 로그인
-
-    @PostMapping("/login")
-    public ResponseEntity<Void> loginUser(@Valid @RequestBody LoginRequestDto dto) {
-        String token = userService.loginUser(dto);
-
-
-        return ResponseEntity.ok()
-                .header(JwtUtil.AUTHORIZATION_HEADER, token)
-                .build();
-
-    }
-
 
 
 

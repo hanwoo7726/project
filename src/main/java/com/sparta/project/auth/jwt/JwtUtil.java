@@ -73,6 +73,7 @@ public class JwtUtil {
                 .expiration(
                         new Date(date.getTime() + REFRESH_TOKEN_TIME)
                 )
+                .signWith(secretKey)
                 .compact();
     }
 
