@@ -15,10 +15,6 @@ public enum ErrorCode {
 
   private final HttpStatus status;
   private final String message;
-  
-
-  private HttpStatus status;
-  private String message;
 
   ErrorCode(HttpStatus status, String message) {
     this.status = status;

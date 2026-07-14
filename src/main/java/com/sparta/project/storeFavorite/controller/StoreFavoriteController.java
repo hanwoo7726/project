@@ -1,5 +1,6 @@
 package com.sparta.project.storeFavorite.controller;
 
+import com.sparta.project.auth.security.PrincipalDetails;
 import com.sparta.project.storeFavorite.service.StoreFavoriteService;
 import com.sparta.project.storeFavorite.dto.ResStoreFavoriteDto;
 import com.sparta.project.storeFavorite.dto.ResStoreFavoriteStatusDto;
@@ -21,10 +22,10 @@ public class StoreFavoriteController {
 
   @GetMapping
   public ResponseEntity<List<ResStoreFavoriteDto>> getFavorites(
-      @AuthenticationPrincipal UserDetailsImpl userDetails
+      @AuthenticationPrincipal PrincipalDetails userDetails
   ) {
     List<ResStoreFavoriteDto> resStoreFavoriteDtoList =
-        storeFavoriteService.getFavorites(userDetails.getUserId());
+        storeFavoriteService.getFavorites(userDetails.getUser().getId());
 
     return ResponseEntity.status(HttpStatus.OK)
         .body(resStoreFavoriteDtoList);
@@ -32,10 +33,10 @@ public class StoreFavoriteController {
 
   @PutMapping("/{storeId}")
   public ResponseEntity<ResStoreFavoriteStatusDto> addFavorite(
-      @AuthenticationPrincipal UserDetailsImpl userDetails,
+      @AuthenticationPrincipal PrincipalDetails userDetails,
       @PathVariable UUID storeId
   ) {
-    ResStoreFavoriteStatusDto resDto = storeFavoriteService.addFavorite(userDetails.getUserId(), storeId);
+    ResStoreFavoriteStatusDto resDto = storeFavoriteService.addFavorite(userDetails.getUser().getId(), storeId);
 
     return ResponseEntity
         .status(HttpStatus.OK)
@@ -44,10 +45,10 @@ public class StoreFavoriteController {
 
   @DeleteMapping("/{storeId}")
   public ResponseEntity<ResStoreFavoriteStatusDto> removeFavorite(
-      @AuthenticationPrincipal UserDetailsImpl userDetails,
+      @AuthenticationPrincipal PrincipalDetails userDetails,
       @PathVariable UUID storeId
   ) {
-    ResStoreFavoriteStatusDto resDto = storeFavoriteService.removeFavorite(userDetails.getUserId(), storeId);
+    ResStoreFavoriteStatusDto resDto = storeFavoriteService.removeFavorite(userDetails.getUser().getId(), storeId);
 
     return ResponseEntity
         .status(HttpStatus.OK)
