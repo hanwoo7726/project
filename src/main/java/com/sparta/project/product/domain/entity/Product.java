@@ -50,5 +50,35 @@ public class Product extends BaseEntity {
         product.isHidden = false; // 이건 고민
         return product;
     }
+
+    // 상품 정보 수정
+    public void update(String name, Integer price, String description, Integer displayOrder) {
+        if(name != null){
+            this.price = price;
+        }
+        if(price != null){
+            this.price = price;
+        }
+        if(description != null){
+            this.description = description;
+        }
+        if(displayOrder != null){
+            this.displayOrder = displayOrder;
+        }
+    }
+
+    // 상품 숨김 처리
+    public void hide(){
+        this.isHidden = true;
+    }
+    // 상품 노출 처리
+    public void show(){
+        this.isHidden = false;
+    }
+
+    // AI 생성 설명 반영
+    public void updateDescription(String description){
+        this.description = description;
+    }
 }
 

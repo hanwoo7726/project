@@ -5,6 +5,8 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sparta.project.product.domain.entity.Product;
 import com.sparta.project.product.domain.entity.QProduct;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -54,5 +56,39 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     // keyword가 있으면 상품명 부분 검색, 없으면 null
     private BooleanExpression nameContains(String keyword) {
         return StringUtils.hasText(keyword) ? QProduct.product.name.containsIgnoreCase(keyword) : null;
+    }
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    @Override
+    public void shiftDisplayOrder(UUID storeId, Integer fromOrder){
+        QProduct product = QProduct.product;
+
+        queryFactory
+                .update(product)
+                .set(product.displayOrder, product.displayOrder.add(1))
+                .where(
+                        product.storeId.eq(storeId),
+                        product.displayOrder.goe(fromOrder),
+                        product.isHidden.isFalse()  // 공개 상태 상품만
+                )
+                .execute();
+
+        entityManager.flush();
+        entityManager.clear();
+    }
+
+    @Override
+    public Integer findMaxDisplayOrder(UUID storeId){
+        QProduct product = QProduct.product;
+
+        Integer max = queryFactory
+                .select(product.displayOrder.max())
+                .from(product)
+                .where(product.storeId.eq(storeId))
+                .fetchOne();
+
+        return max == null ? 0 : max;
     }
 }

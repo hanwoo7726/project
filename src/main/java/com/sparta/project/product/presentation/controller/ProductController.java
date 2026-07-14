@@ -1,13 +1,15 @@
 package com.sparta.project.product.presentation.controller;
 
 import com.sparta.project.product.application.service.ProductService;
+import com.sparta.project.product.infrastructure.ai.GeminiClient;
 import com.sparta.project.product.presentation.dto.request.ProductCreateRequest;
+import com.sparta.project.product.presentation.dto.request.ProductUpdateRequest;
+import com.sparta.project.product.presentation.dto.request.ProductVisibilityRequest;
 import com.sparta.project.product.presentation.dto.response.ProductResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ProductController {
     private final ProductService productService;
+    private final GeminiClient geminiClient;
 
     // 상품 등록
     @PostMapping
@@ -46,5 +49,32 @@ public class ProductController {
     ) {
                 Page<ProductResponse> response = productService.getProducts(storeId, keyword, pageable);
                 return ResponseEntity.ok(response);
+    }
+
+    // 상품 수정
+    @PatchMapping("/{productId}")
+    public ResponseEntity<ProductResponse> updateProduct(
+            @PathVariable UUID productId,
+            @Valid @RequestBody ProductUpdateRequest request
+    ){
+        ProductResponse response = productService.updateProduct(productId, request);
+        return ResponseEntity.ok(response);
+    }
+
+    // 상품 숨김-노출 전환
+    @PatchMapping("/{productId}/visibility")
+    public ResponseEntity<ProductResponse> updateVisibility(
+            @PathVariable UUID productId,
+            @Valid @RequestBody ProductVisibilityRequest request
+    ){
+        ProductResponse response = productService.updateVisibility(productId, request.getIsHidden());
+
+        return ResponseEntity.ok(response);
+    }
+
+    // (ai 생성 임시 테스트용)
+    @GetMapping("/ai-test")
+    public ResponseEntity<String> aiTest(@RequestParam String prompt){
+        return ResponseEntity.ok(geminiClient.generate(prompt));
     }
 }
