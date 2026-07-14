@@ -30,7 +30,8 @@ public class ReviewController {
     @PostMapping
     public ResponseEntity<Map<String, Object>> createReview(@RequestBody ReviewRequestDto requestDto) {
 
-        Review createdReview = reviewService.createReview(
+        // ⭐️ 서비스가 이제 ReviewResponseDto를 반환합니다.
+        ReviewResponseDto createdReviewDto = reviewService.createReview(
                 requestDto.getReviewRating(),
                 requestDto.getReviewContent(),
                 requestDto.getReviewImageUrl(),
@@ -41,7 +42,7 @@ public class ReviewController {
         Map<String, Object> response = new HashMap<>();
         response.put("code", 201);
         response.put("message", "리뷰가 등록되었습니다.");
-        response.put("data", createdReview);
+        response.put("data", createdReviewDto); // ⭐️ 엔티티 대신 DTO를 결과 데이터에 세팅
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -52,12 +53,13 @@ public class ReviewController {
             @RequestParam UUID storeId,
             Pageable pageable) {
 
-        Page<Review> reviewPage = reviewService.getReviewsByStore(storeId, pageable);
+        // ⭐️ 서비스가 이제 Page<ReviewResponseDto>를 반환합니다.
+        Page<ReviewResponseDto> reviewDtoPage = reviewService.getReviewsByStore(storeId, pageable);
 
         Map<String, Object> response = new HashMap<>();
         response.put("code", 200);
         response.put("message", "리뷰 목록 조회가 완료되었습니다.");
-        response.put("data", reviewPage.getContent());
+        response.put("data", reviewDtoPage.getContent()); // ⭐️ DTO 리스트가 담겨 프론트로 전송됨
 
         return ResponseEntity.ok(response);
     }
