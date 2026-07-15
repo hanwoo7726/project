@@ -34,4 +34,8 @@ public class GeminiClient {
 
         return response == null ? null : response.extractText();
     }
+
+    public String getContents(String prompt) {
+        return generate(prompt);
+    }
 }
