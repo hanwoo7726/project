@@ -53,13 +53,6 @@ jobs:
       - name: 빌드
         run: ./gradlew build -x test
 
-      - name: 테스트 결과 업로드
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-reports
-          path: build/reports/tests/test
-          if-no-files-found: ignore
 
   deploy:
     needs: build-and-test
