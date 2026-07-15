@@ -1,12 +1,12 @@
 package com.sparta.project.cart.controller;
 
+import com.sparta.project.auth.security.PrincipalDetails;
 import com.sparta.project.cart.service.CartService;
 import com.sparta.project.cart.dto.request.ReqAddCartItemDto;
 import com.sparta.project.cart.dto.request.ReqUpdateCartItemQuantityDto;
 import com.sparta.project.cart.dto.response.ResCartDto;
 import com.sparta.project.cart.dto.response.ResUpdateCartItemQuantityDto;
 import com.sparta.project.global.infrastructure.presentation.ApiResponse;
-import com.sparta.project.user.security.PrincipalDetails;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
