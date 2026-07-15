@@ -1,6 +1,6 @@
 package com.sparta.project.product.entity;
 
-import com.sparta.project.global.entity.BaseEntity;
+import com.sparta.project.global.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -22,7 +22,7 @@ public class Product extends BaseEntity {
     private UUID productId;
 
     @Column(name = "store_id", nullable = false)
-    private UUID storeId; // 직접 생성
+    private Long storeId; // 직접 생성
 
     @Column(nullable = false, length = 100)
     private String name;
@@ -40,7 +40,7 @@ public class Product extends BaseEntity {
     private Integer displayOrder;
 
     // 상품 생성
-    public static Product create(UUID storeId, String name, Integer price, String description, Integer displayOrder) {
+    public static Product create(Long storeId, String name, Integer price, String description, Integer displayOrder) {
         Product product = new Product();
         product.storeId = storeId;
         product.name = name;
@@ -68,7 +68,7 @@ public class Product extends BaseEntity {
     }
 
     // 상품 삭제
-    public void delete(String deleteBy){
+    public void delete(Long deleteBy){ // String -> Long
         softDelete(deleteBy);
     }
 
