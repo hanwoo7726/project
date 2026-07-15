@@ -79,7 +79,7 @@ public class AuthService {
 
         String newRefreshToken = jwtUtil.createRefreshToken(user.getUsername());
 
-        LocalDateTime expiresAt = jwtUtil.getExpiration(refreshToken);
+        LocalDateTime expiresAt = jwtUtil.getExpiration(newRefreshToken);
 
         // 기존 Refresh Token 교체
         savedRefreshToken.update(newRefreshToken, expiresAt);

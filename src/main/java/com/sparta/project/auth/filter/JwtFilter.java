@@ -21,9 +21,8 @@ import java.io.IOException;
 public class JwtFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
-
-
     private final PrincipalDetailsService principalDetailsService;
+
     public JwtFilter(JwtUtil jwtUtil, PrincipalDetailsService principalDetailsService) {
         this.jwtUtil = jwtUtil;
         this.principalDetailsService = principalDetailsService;
