@@ -29,6 +29,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
         BooleanBuilder conditions = new BooleanBuilder();
         conditions.and(storeIdEq(storeId));
         conditions.and(nameContains(keyword));
+        conditions.and(product.deletedAt.isNull());
 
         // 실제 데이터 조회
         List<Product> content = queryFactory
@@ -71,7 +72,8 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .where(
                         product.storeId.eq(storeId),
                         product.displayOrder.goe(fromOrder),
-                        product.isHidden.isFalse()  // 공개 상태 상품만
+                        product.isHidden.isFalse(),  // 공개 상태 상품만
+                        product.deletedAt.isNull()
                 )
                 .execute();
 
@@ -86,7 +88,10 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
         Integer max = queryFactory
                 .select(product.displayOrder.max())
                 .from(product)
-                .where(product.storeId.eq(storeId))
+                .where(
+                        product.storeId.eq(storeId),
+                        product.deletedAt.isNull()
+                )
                 .fetchOne();
 
         return max == null ? 0 : max;

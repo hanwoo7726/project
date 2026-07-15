@@ -68,8 +68,7 @@ public class ProductService {
     // 상품 단건 조회
     @Transactional(readOnly = true)
     public ProductResponse getProduct(UUID productId) {
-        Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new IllegalArgumentException("상품을 찾을 수 없습니다. "));
+        Product product = findActivaProduct(productId);
         return ProductResponse.from(product);
     }
 
@@ -84,8 +83,7 @@ public class ProductService {
 
     // 상품 수정
     public ProductResponse updateProduct(UUID productId, ProductUpdateRequest request) {
-        Product product = productRepository.findById(productId)
-                .orElseThrow(()-> new IllegalArgumentException("상품을 찾을 수 없습니다. "));
+        Product product = findActivaProduct(productId);
 
         product.update(
                request.getName(),
@@ -111,6 +109,24 @@ public class ProductService {
         }
 
         return ProductResponse.from(product);
+    }
+
+    // 상품 삭제
+    @Transactional
+    public void deleteProduct(UUID productId){
+        Product product = findActivaProduct(productId);
+        product.delete(null); // createdBy용
+    }
+
+    // 삭제되지 않은 상품 조회
+    private Product findActivaProduct(UUID productId){
+        Product product = productRepository.findById(productId)
+                .orElseThrow(()-> new IllegalArgumentException("상품을 찾을 수 없습니다."));
+
+        if(product.isDeleted()){
+            throw new IllegalArgumentException("상품을 찾을 수 없습니다. ");
+        }
+        return product;
     }
 
     // 페이지 크기 검증  10/20/30

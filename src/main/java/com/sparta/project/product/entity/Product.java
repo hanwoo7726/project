@@ -67,6 +67,11 @@ public class Product extends BaseEntity {
         }
     }
 
+    // 상품 삭제
+    public void delete(String deleteBy){
+        softDelete(deleteBy);
+    }
+
     // 상품 숨김 처리
     public void hide(){
         this.isHidden = true;
