@@ -74,10 +74,10 @@ public class ProductService {
 
     // 상품 목록 조회
     @Transactional(readOnly = true)
-    public Page<ProductResponse> getProducts(UUID storeId, String keyword, Pageable pageable) {
+    public Page<ProductResponse> getProducts(Long storeId, String keyword, Pageable pageable) {
         Pageable validatedPageable = validatePageSize(pageable);
 
-        return productRepository.searchProducts(storeId, keyword, validatedPageable)
+        return productRepository.searchProducts(storeId, keyword, validatedPageable, false)
                 .map(ProductResponse::from);
     }
 
@@ -123,11 +123,21 @@ public class ProductService {
         Product product = productRepository.findById(productId)
                 .orElseThrow(()-> new IllegalArgumentException("상품을 찾을 수 없습니다."));
 
-        if(product.isDeleted()){
+        if(product.getDeletedAt() != null){
             throw new IllegalArgumentException("상품을 찾을 수 없습니다. ");
         }
         return product;
     }
+
+    // 관리자 상품 목록 조회 (숨김/삭제 상품 포함)
+    @Transactional(readOnly = true)
+    public Page<ProductResponse> getProductsForAdmin(Long storeId, String keyword, Pageable pageable) {
+        Pageable validatedPageable = validatePageSize(pageable);
+
+        return productRepository.searchProducts(storeId, keyword, validatedPageable, true)
+                .map(ProductResponse::from);
+    }
+
 
     // 페이지 크기 검증  10/20/30
     private Pageable validatePageSize(Pageable pageable){

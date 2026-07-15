@@ -36,7 +36,7 @@ class ProductServiceTest {
     @DisplayName("AI 미사용 시 상품이 정상 등록")
     void createProduct_success_withoutAi() {
         // given - 준비
-        UUID storeId = UUID.randomUUID();
+        Long storeId = 1L;
         ProductCreateRequest request = new ProductCreateRequest();
         // 리플렉션으로 필드 세팅
         setField(request, "storeId", storeId);

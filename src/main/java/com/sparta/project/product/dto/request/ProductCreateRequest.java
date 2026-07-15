@@ -6,13 +6,11 @@ import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 
-import java.util.UUID;
-
 @Getter
 public class ProductCreateRequest {
 
     @NotNull(message = "가게 ID는 필수입니다.")
-    private UUID storeId;
+    private Long storeId;
 
     @NotBlank(message = "상품명은 필수입니다.")
     private String name;

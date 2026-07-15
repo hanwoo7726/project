@@ -14,7 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
-import java.util.UUID;
 
 @RequiredArgsConstructor
 public class ProductRepositoryImpl implements ProductRepositoryCustom {
@@ -22,14 +21,17 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Page<Product> searchProducts(UUID storeId, String keyword, Pageable pageable){
+    public Page<Product> searchProducts(Long storeId, String keyword, Pageable pageable, boolean includeDeleted){
         QProduct product = QProduct.product;
 
         // 조건 조합 (null이면 무시)
         BooleanBuilder conditions = new BooleanBuilder();
         conditions.and(storeIdEq(storeId));
         conditions.and(nameContains(keyword));
-        conditions.and(product.deletedAt.isNull());
+        if(!includeDeleted){
+            conditions.and(product.deletedAt.isNull());
+        }
+
 
         // 실제 데이터 조회
         List<Product> content = queryFactory
@@ -51,7 +53,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     }
 
     // storeId가 있으면 조건 추가, 없으면 null
-    private BooleanExpression storeIdEq(UUID storeId) {
+    private BooleanExpression storeIdEq(Long storeId) {
         return storeId != null ? QProduct.product.storeId.eq(storeId) : null;
     }
     // keyword가 있으면 상품명 부분 검색, 없으면 null
@@ -63,7 +65,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     private EntityManager entityManager;
 
     @Override
-    public void shiftDisplayOrder(UUID storeId, Integer fromOrder){
+    public void shiftDisplayOrder(Long storeId, Integer fromOrder){
         QProduct product = QProduct.product;
 
         queryFactory
@@ -82,7 +84,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     }
 
     @Override
-    public Integer findMaxDisplayOrder(UUID storeId){
+    public Integer findMaxDisplayOrder(Long storeId){
         QProduct product = QProduct.product;
 
         Integer max = queryFactory

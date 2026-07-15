@@ -9,7 +9,7 @@ import java.util.UUID;
 public class ProductResponse {
 
     private final UUID productId;
-    private final UUID storeID;
+    private final Long storeId;
     private final String name;
     private final Integer price;
     private final Boolean isHidden;
@@ -17,7 +17,7 @@ public class ProductResponse {
 
     private ProductResponse(Product product) {
         this.productId = product.getProductId();
-        this.storeID = product.getStoreId();
+        this.storeId = product.getStoreId();
         this.name = product.getName();
         this.price = product.getPrice();
         this.isHidden = product.getIsHidden();

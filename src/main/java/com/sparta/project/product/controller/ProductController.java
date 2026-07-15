@@ -41,7 +41,7 @@ public class ProductController {
     // 상품 목록 조회
     @GetMapping
     public ResponseEntity<Page<ProductResponse>> getProducts(
-            @RequestParam(required = false) UUID storeId,
+            @RequestParam(required = false) Long storeId,
             @RequestParam(required = false) String keyword,
             @PageableDefault(size = 10) Pageable pageable
     ) {

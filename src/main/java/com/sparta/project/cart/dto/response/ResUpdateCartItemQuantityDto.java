@@ -19,7 +19,7 @@ public class ResUpdateCartItemQuantityDto {
   public static ResUpdateCartItemQuantityDto from(CartItem cartItem) {
     return new ResUpdateCartItemQuantityDto(
         cartItem.getId(),
-        cartItem.getProduct().getId(),
+        cartItem.getProduct().getProductId(),
         cartItem.getProduct().getName(),
         cartItem.getQuantity()
     );
