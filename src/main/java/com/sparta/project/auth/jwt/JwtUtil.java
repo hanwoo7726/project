@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 @Component
@@ -148,8 +150,12 @@ public class JwtUtil {
     }
 
     // 만료시간 조회
-    public Date getExpiration(String token) {
-        return getUserInfoFromToken(token).getExpiration();
+    public LocalDateTime getExpiration(String token) {
+        Date expiration = getUserInfoFromToken(token).getExpiration();
+
+        return expiration.toInstant()
+                .atZone(ZoneId.of("Asia/Seoul"))
+                .toLocalDateTime();
     }
 
 

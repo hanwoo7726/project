@@ -23,13 +23,15 @@ public class RefreshToken {
 
     private LocalDateTime expiresAt;
 
-    public RefreshToken(String username, String token) {
+    public RefreshToken(String username, String token, LocalDateTime expiresAt) {
         this.username = username;
         this.token = token;
+        this.expiresAt = expiresAt;
     }
 
-    public void update(String token) {
+    public void update(String token, LocalDateTime expiresAt) {
         this.token = token;
+        this.expiresAt = expiresAt;
 
 
     }
