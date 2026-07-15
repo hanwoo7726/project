@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import lombok.AccessLevel;
@@ -55,6 +56,10 @@ public class Store {
 
     @Column(name = "delivery_fee", nullable = false)
     private Integer deliveryFee;
+
+    @Version
+    @Column(nullable = false)
+    private Long version;
 
     @Column(name = "average_rating")
     private Double averageRating;
