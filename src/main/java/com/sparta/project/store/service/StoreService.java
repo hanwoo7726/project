@@ -1,5 +1,7 @@
 package com.sparta.project.store.service;
 
+import com.sparta.project.common.exception.BusinessException;
+import com.sparta.project.common.exception.ErrorCode;
 import com.sparta.project.store.dto.StoreCreateRequestDto;
 import com.sparta.project.store.dto.StoreResponseDto;
 import com.sparta.project.store.dto.StoreUpdateRequestDto;
@@ -7,7 +9,6 @@ import com.sparta.project.store.entity.Store;
 import com.sparta.project.store.repository.StoreRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,12 +61,13 @@ public class StoreService {
 
     private Store findActiveStore(Long storeId) {
         return storeRepository.findByIdAndDeletedAtIsNull(storeId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 가맹점입니다. id=" + storeId));
+                .orElseThrow(() -> new BusinessException(
+                        ErrorCode.STORE_NOT_FOUND, "존재하지 않는 가맹점입니다. id=" + storeId));
     }
 
     private void validateOwner(Store store, String ownerUsername) {
         if (!store.isOwnedBy(ownerUsername)) {
-            throw new AccessDeniedException("해당 가맹점에 대한 권한이 없습니다.");
+            throw new BusinessException(ErrorCode.STORE_ACCESS_DENIED);
         }
     }
 }
