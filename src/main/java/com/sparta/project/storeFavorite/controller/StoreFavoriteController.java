@@ -46,7 +46,7 @@ public class StoreFavoriteController {
   @DeleteMapping("/{storeId}")
   public ResponseEntity<ResStoreFavoriteStatusDto> removeFavorite(
       @AuthenticationPrincipal PrincipalDetails userDetails,
-      @PathVariable UUID storeId
+      @PathVariable Long storeId
   ) {
     ResStoreFavoriteStatusDto resDto = storeFavoriteService.removeFavorite(userDetails.getUser().getId(), storeId);
 
