@@ -126,15 +126,24 @@ jobs:
             echo "JAR_FILE=$JAR_FILE"
 
             echo "=== 기존 애플리케이션 종료 ==="
-
+            
             PID=$(pgrep -f \
-              'java -jar /home/ubuntu/app/build/libs/.*\.jar' || true)
+            '^java -jar /home/ubuntu/app/build/libs/[^ ]*\.jar$' \
+            | head -n 1 || true)
 
             if [ -n "$PID" ]; then
-              kill -15 $PID
+            echo "기존 PID=$PID"
+            kill -15 "$PID"
           
+            for i in $(seq 1 30); do
+            if ! kill -0 "$PID" 2>/dev/null; then
+            echo "기존 애플리케이션 종료 완료"
+            break
+            fi
+            sleep 1
+            done
             else
-              echo "실행 중인 애플리케이션 없음"
+            echo "실행 중인 애플리케이션 없음"
             fi
 
             echo "=== 최신 JAR 실행 ==="
