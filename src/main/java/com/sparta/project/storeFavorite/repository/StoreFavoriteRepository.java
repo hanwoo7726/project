@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public interface StoreFavoriteRepository extends JpaRepository<StoreFavorite, UUID> {
 
-  Optional<StoreFavorite> findByUser_IdAndStore_Id(Long userId, UUID storeId);
+  Optional<StoreFavorite> findByUser_IdAndStore_Id(Long userId, Long storeId);
 
   List<StoreFavorite> findAllByUser_Id(Long userId);
 

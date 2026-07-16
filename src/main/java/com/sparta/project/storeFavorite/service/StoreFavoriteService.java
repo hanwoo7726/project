@@ -55,7 +55,7 @@ public class StoreFavoriteService {
   }
 
   @Transactional
-  public ResStoreFavoriteStatusDto removeFavorite(Long userId, UUID storeId) {
+  public ResStoreFavoriteStatusDto removeFavorite(Long userId, Long storeId) {
 
     StoreFavorite storeFavorite = storeFavoriteRepository.findByUser_IdAndStore_Id(userId, storeId)
         .orElseThrow(() -> new RuntimeException("store_favorite not found"));
