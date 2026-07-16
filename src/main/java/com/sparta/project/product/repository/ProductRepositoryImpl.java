@@ -39,7 +39,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .where(conditions)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .orderBy(product.productId.desc()) // createdAt으로 변경해야함 추후에
+                .orderBy(product.createdAt.desc())
                 .fetch();
 
         // 전체 개수 조회

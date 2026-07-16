@@ -11,6 +11,7 @@ public class ProductResponse {
     private final UUID productId;
     private final Long storeId;
     private final String name;
+    private final String description;
     private final Integer price;
     private final Boolean isHidden;
     private final Integer displayOrder;
@@ -19,6 +20,7 @@ public class ProductResponse {
         this.productId = product.getProductId();
         this.storeId = product.getStoreId();
         this.name = product.getName();
+        this.description = product.getDescription();
         this.price = product.getPrice();
         this.isHidden = product.getIsHidden();
         this.displayOrder = product.getDisplayOrder();

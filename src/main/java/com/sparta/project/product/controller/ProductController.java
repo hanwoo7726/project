@@ -1,5 +1,6 @@
 package com.sparta.project.product.controller;
 
+import com.sparta.project.auth.security.PrincipalDetails;
 import com.sparta.project.product.service.ProductService;
 import com.sparta.project.product.dto.request.ProductCreateRequest;
 import com.sparta.project.product.dto.request.ProductUpdateRequest;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -25,9 +27,10 @@ public class ProductController {
     // 상품 등록
     @PostMapping
     public ResponseEntity<ProductResponse> createProduct(
-            @Valid @RequestBody ProductCreateRequest request
+            @Valid @RequestBody ProductCreateRequest request,
+            @AuthenticationPrincipal PrincipalDetails userDetails
     ){
-        ProductResponse response = productService.createProduct(request);
+        ProductResponse response = productService.createProduct(request, userDetails.getUser());
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
@@ -53,9 +56,10 @@ public class ProductController {
     @PatchMapping("/{productId}")
     public ResponseEntity<ProductResponse> updateProduct(
             @PathVariable UUID productId,
-            @Valid @RequestBody ProductUpdateRequest request
+            @Valid @RequestBody ProductUpdateRequest request,
+            @AuthenticationPrincipal PrincipalDetails userDetails
     ){
-        ProductResponse response = productService.updateProduct(productId, request);
+        ProductResponse response = productService.updateProduct(productId, request, userDetails.getUser());
         return ResponseEntity.ok(response);
     }
 
@@ -63,17 +67,21 @@ public class ProductController {
     @PatchMapping("/{productId}/visibility")
     public ResponseEntity<ProductResponse> updateVisibility(
             @PathVariable UUID productId,
-            @Valid @RequestBody ProductVisibilityRequest request
+            @Valid @RequestBody ProductVisibilityRequest request,
+            @AuthenticationPrincipal PrincipalDetails userDetails
     ){
-        ProductResponse response = productService.updateVisibility(productId, request.getIsHidden());
+        ProductResponse response = productService.updateVisibility(productId, request.getIsHidden(), userDetails.getUser());
 
         return ResponseEntity.ok(response);
     }
 
     // 상품 삭제
     @DeleteMapping("/{productId}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable UUID productId){
-        productService.deleteProduct(productId);
+    public ResponseEntity<Void> deleteProduct(
+            @PathVariable UUID productId,
+            @AuthenticationPrincipal PrincipalDetails userDetails
+    ){
+        productService.deleteProduct(productId, userDetails.getUser());
         return ResponseEntity.noContent().build();
     }
 }
