@@ -29,6 +29,7 @@ jobs:
       DB_USERNAME: postgres
       DB_PASSWORD: postgres
       JWT_SECRET_KEY: ci-test-secret-key-over-32-characters
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULT_SCHEMA: public
 
     steps:
