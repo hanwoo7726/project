@@ -17,7 +17,7 @@ public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "order_id", length = 30)
+    @Column(name = "order_id", length = 36)
     private String orderId;
 
     @Column(name = "order_number", nullable = false, unique = true)

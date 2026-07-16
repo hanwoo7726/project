@@ -10,6 +10,8 @@ import com.sparta.project.order.entity.OrderStatusHistory;
 import com.sparta.project.order.repository.OrderProductRepository;
 import com.sparta.project.order.repository.OrderRepository;
 import com.sparta.project.order.repository.OrderStatusHistoryRepository;
+
+import com.sparta.project.payment.service.PaymentService;
 import com.sparta.project.product.entity.Product;
 import com.sparta.project.product.repository.ProductRepository;
 import com.sparta.project.store.entity.Store;
@@ -40,6 +42,7 @@ public class OrderService {
     private final OrderStatusHistoryRepository historyRepository;
     private final ProductRepository productRepository;
     private final StoreRepository storeRepository;
+    private final PaymentService paymentService;
 
     /**
      * 주문 생성
@@ -158,7 +161,12 @@ public class OrderService {
         historyRepository.save(history);
 
         // ==========================
-        // 9. Response 반환
+        // 9. 결제 데이터 생성
+        // ==========================
+        paymentService.payAccess(order.getOrderId());
+
+        // ==========================
+        // 10. Response 반환
         // ==========================
         return OrderCreateResponseDto.builder()
                 .orderId(order.getOrderId())
