@@ -36,6 +36,9 @@ public class SecurityConfig {
                 )
 
                 .authorizeHttpRequests(auth -> auth
+                        // 서버 배포 확인용
+                        .requestMatchers(HttpMethod.GET,"/health").permitAll()
+
                         // 로그인, 회원가입
                         .requestMatchers(HttpMethod.POST, "/users").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
