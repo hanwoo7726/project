@@ -49,6 +49,7 @@ public class SecurityConfig {
 
 
                         // 관리자
+                        .requestMatchers("/api/vi/admin/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/users").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
 

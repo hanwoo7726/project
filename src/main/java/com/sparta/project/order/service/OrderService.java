@@ -10,9 +10,10 @@ import com.sparta.project.order.entity.OrderStatusHistory;
 import com.sparta.project.order.repository.OrderProductRepository;
 import com.sparta.project.order.repository.OrderRepository;
 import com.sparta.project.order.repository.OrderStatusHistoryRepository;
+
 import com.sparta.project.payment.service.PaymentService;
-import com.sparta.project.product.domain.entity.Product;
-import com.sparta.project.product.domain.repository.ProductRepository;
+import com.sparta.project.product.entity.Product;
+import com.sparta.project.product.repository.ProductRepository;
 import com.sparta.project.store.entity.Store;
 import com.sparta.project.store.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;

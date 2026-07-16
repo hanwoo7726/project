@@ -1,7 +1,7 @@
 package com.sparta.project.cart.dto.response;
 
 import com.sparta.project.cart.entity.CartItem;
-import com.sparta.project.product.domain.entity.Product;
+import com.sparta.project.product.entity.Product;
 import lombok.Getter;
 
 import java.util.UUID;
@@ -20,7 +20,7 @@ public class ResCartItemDto {
     Product product = cartItem.getProduct();
 
     this.cartItemId = cartItem.getId();
-    this.productId = product.getId();
+    this.productId = product.getProductId();
     this.productName = product.getName();
     this.productPrice = product.getPrice();
     this.quantity = cartItem.getQuantity();

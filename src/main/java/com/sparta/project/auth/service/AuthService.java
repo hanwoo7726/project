@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -35,14 +37,15 @@ public class AuthService {
 
         String refreshToken = jwtUtil.createRefreshToken(user.getUsername());
 
+        LocalDateTime expiresAt = jwtUtil.getExpiration(refreshToken);
+
         // 기존 Refresh Token이 있으면 교체
         RefreshToken savedRefreshToken = refreshTokenRepository.findByUsername(user.getUsername()).map(existingToken -> {
-            existingToken.update(refreshToken);
+            existingToken.update(refreshToken,expiresAt);
             return existingToken;
-        }).orElseGet(() -> new RefreshToken(user.getUsername(), refreshToken));
+        }).orElseGet(() -> new RefreshToken(user.getUsername(), refreshToken,expiresAt));
 
         refreshTokenRepository.save(savedRefreshToken);
-
 
         return new TokenResponseDto(accessToken, refreshToken);
 
@@ -76,8 +79,10 @@ public class AuthService {
 
         String newRefreshToken = jwtUtil.createRefreshToken(user.getUsername());
 
+        LocalDateTime expiresAt = jwtUtil.getExpiration(newRefreshToken);
+
         // 기존 Refresh Token 교체
-        savedRefreshToken.update(newRefreshToken);
+        savedRefreshToken.update(newRefreshToken, expiresAt);
 
         return new TokenResponseDto(newAccessToken, newRefreshToken);
     }
