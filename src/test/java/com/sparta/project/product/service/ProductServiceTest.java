@@ -11,9 +11,15 @@ import com.sparta.project.user.entity.UserRoleEnum;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -21,6 +27,7 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -178,6 +185,42 @@ class ProductServiceTest {
         // then - Soft Delete가 기록되었는지
         assertThat(product.getDeletedAt()).isNotNull();
         assertThat(product.getDeletedBy()).isEqualTo(1L);
+    }
+
+    @ParameterizedTest
+    @DisplayName("허용된 페이지 크기(10/30/50)는 그대로 유지")
+    @ValueSource(ints = {10, 30, 50})
+    void getProducts_allowedPageSize(int size) {
+        // given
+        Pageable pageable = PageRequest.of(0, size);
+        given(productRepository.searchProducts(any(), any(), any(Pageable.class), anyBoolean()))
+                .willReturn(Page.empty());
+
+        // when
+        productService.getProducts(STORE_ID, null, pageable);
+
+        // then - 요청한 크기가 그대로 전달되어야 함
+        ArgumentCaptor<Pageable> captor = ArgumentCaptor.forClass(Pageable.class);
+        verify(productRepository).searchProducts(any(), any(), captor.capture(), anyBoolean());
+        assertThat(captor.getValue().getPageSize()).isEqualTo(size);
+    }
+
+    @ParameterizedTest
+    @DisplayName("허용되지 않은 페이지 크기는 10으로 고정")
+    @ValueSource(ints = {1, 20, 51, 999})
+    void getProducts_invalidPageSize(int size) {
+        // given
+        Pageable pageable = PageRequest.of(0, size);
+        given(productRepository.searchProducts(any(), any(), any(Pageable.class), anyBoolean()))
+                .willReturn(Page.empty());
+
+        // when
+        productService.getProducts(STORE_ID, null, pageable);
+
+        // then - 10으로 강제되어야 함
+        ArgumentCaptor<Pageable> captor = ArgumentCaptor.forClass(Pageable.class);
+        verify(productRepository).searchProducts(any(), any(), captor.capture(), anyBoolean());
+        assertThat(captor.getValue().getPageSize()).isEqualTo(10);
     }
 
     // 테스트용 User 생성 (생성자가 없어서)

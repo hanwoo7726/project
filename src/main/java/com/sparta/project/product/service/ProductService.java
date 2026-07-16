@@ -26,7 +26,7 @@ public class ProductService {
     private final ProductRepository productRepository;
     // 페이지 크기
     private static final int DEFAULT_PAGE_SIZE = 10;
-    private static final List<Integer> ALLOWED_PAGE_SIZES = List.of(10, 20, 30);
+    private static final List<Integer> ALLOWED_PAGE_SIZES = List.of(10, 30, 50);
     private final ProductAiService productAiService;
 
     private final StoreRepository storeRepository;
@@ -175,13 +175,13 @@ public class ProductService {
     }
 
 
-    // 페이지 크기 검증  10/20/30
+    // 페이지 크기 검증 (10/30/50만 허용, 그 외는 10으로 고정)
     private Pageable validatePageSize(Pageable pageable){
         int size = pageable.getPageSize();
 
         if(ALLOWED_PAGE_SIZES.contains(size)){
-            return PageRequest.of(pageable.getPageNumber(), DEFAULT_PAGE_SIZE, pageable.getSort());
+            return pageable;
         }
-        return pageable;
+        return PageRequest.of(pageable.getPageNumber(), DEFAULT_PAGE_SIZE, pageable.getSort());
     }
 }
