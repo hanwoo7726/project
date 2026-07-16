@@ -1,5 +1,7 @@
 package com.sparta.project.common.exception;
 
+import com.sparta.project.global.exception.CustomException;
+import com.sparta.project.global.infrastructure.presentation.response.ApiResponse;
 import jakarta.persistence.OptimisticLockException;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -58,5 +60,16 @@ public class GlobalExceptionHandler {
                 HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal Server Error",
                 "서버 오류가 발생했습니다.", request.getRequestURI(), null);
         return ResponseEntity.internalServerError().body(body);
+    }
+
+    @ExceptionHandler(CustomException.class)
+    public ResponseEntity<ApiResponse<Void>> handlerCustomException(CustomException e) {
+
+        return ResponseEntity
+            .status(e.getErrorCode().getStatus())
+            .body(ApiResponse.error(
+                e.getErrorCode().getStatus(),
+                e.getErrorCode().getMessage()
+            ));
     }
 }

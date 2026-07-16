@@ -34,7 +34,7 @@ public class StoreFavoriteController {
   @PutMapping("/{storeId}")
   public ResponseEntity<ResStoreFavoriteStatusDto> addFavorite(
       @AuthenticationPrincipal PrincipalDetails userDetails,
-      @PathVariable UUID storeId
+      @PathVariable Long storeId
   ) {
     ResStoreFavoriteStatusDto resDto = storeFavoriteService.addFavorite(userDetails.getUser().getId(), storeId);
 

@@ -13,7 +13,7 @@ import java.util.UUID;
 public class ResCartDto {
 
   private UUID cartId;
-  private UUID storeId;
+  private Long storeId;
   private String storeName;
   private int totalPrice;
   private List<ResCartItemDto> items;
