@@ -10,7 +10,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class ResStoreFavoriteDto {
   private Long userId;
-  private UUID storeId;
+  private Long storeId;
   private String storeName;
 
 

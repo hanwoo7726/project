@@ -9,8 +9,11 @@ import com.sparta.project.cart.dto.response.ResCartDto;
 import com.sparta.project.cart.dto.response.ResUpdateCartItemQuantityDto;
 import com.sparta.project.global.exception.CustomException;
 import com.sparta.project.global.exception.ErrorCode;
-import com.sparta.project.product.domain.entity.Product;
-import com.sparta.project.product.domain.repository.ProductRepository;
+
+import com.sparta.project.product.entity.Product;
+import com.sparta.project.product.repository.ProductRepository;
+import com.sparta.project.store.entity.Store;
+import com.sparta.project.store.repository.StoreRepository;
 import com.sparta.project.user.entity.User;
 import com.sparta.project.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +30,7 @@ public class CartService {
   private final CartRepository cartRepository;
   private final UserRepository userRepository;
   private final ProductRepository productRepository;
+  private final StoreRepository storeRepository;
 
 
   @Transactional
@@ -43,7 +47,10 @@ public class CartService {
     Product findProduct = productRepository.findById(reqDto.getProductId())
         .orElseThrow(() -> new RuntimeException("Product not found"));
 
-    boolean differentStore = findCart.containsDifferentStore(findProduct.getStore());
+    Store findStore = storeRepository.findById(findProduct.getStoreId())
+        .orElseThrow(() -> new RuntimeException("Store not found"));
+
+    boolean differentStore = findCart.containsDifferentStore(findProduct.getStoreId());
 
     if (differentStore) {
       if (!reqDto.isReplaceCart()) {
@@ -53,7 +60,7 @@ public class CartService {
       findCart.clearCart();
     }
 
-    findCart.addItem(findProduct, reqDto.getQuantity());
+    findCart.addItem(findProduct, findStore, reqDto.getQuantity());
     cartRepository.save(findCart);
 
     return ResCartDto.from(findCart);

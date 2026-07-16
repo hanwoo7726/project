@@ -32,7 +32,7 @@ public class StoreFavoriteService {
   }
 
   @Transactional
-  public ResStoreFavoriteStatusDto addFavorite(Long userId, UUID storeId) {
+  public ResStoreFavoriteStatusDto addFavorite(Long userId, Long storeId) {
 
     boolean existsFavorite = storeFavoriteRepository.existsByUser_IdAndStore_Id(userId, storeId);
     if (existsFavorite) {

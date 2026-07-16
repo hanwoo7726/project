@@ -10,16 +10,16 @@ import java.util.UUID;
 public class ResStoreFavoriteStatusDto {
 
   private Long userId;
-  private UUID storeId;
+  private Long storeId;
   private boolean favorite;
 
 
-  public static ResStoreFavoriteStatusDto favorited(Long userId, UUID storeId) {
+  public static ResStoreFavoriteStatusDto favorited(Long userId, Long storeId) {
     return new ResStoreFavoriteStatusDto(userId, storeId, true);
   }
 
 
-  public static ResStoreFavoriteStatusDto removed(Long userId, UUID storeId) {
+  public static ResStoreFavoriteStatusDto removed(Long userId, Long storeId) {
     return new ResStoreFavoriteStatusDto(userId, storeId, false);
   }
 

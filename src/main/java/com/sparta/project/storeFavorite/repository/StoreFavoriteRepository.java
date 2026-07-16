@@ -13,5 +13,5 @@ public interface StoreFavoriteRepository extends JpaRepository<StoreFavorite, UU
 
   List<StoreFavorite> findAllByUser_Id(Long userId);
 
-  boolean existsByUser_IdAndStore_Id(Long userId, UUID storeId);
+  boolean existsByUser_IdAndStore_Id(Long userId, Long storeId);
 }

@@ -2,7 +2,7 @@ package com.sparta.project.cart.entity;
 
 import com.sparta.project.global.exception.CustomException;
 import com.sparta.project.global.exception.ErrorCode;
-import com.sparta.project.product.domain.entity.Product;
+import com.sparta.project.product.entity.Product;
 import com.sparta.project.store.entity.Store;
 import com.sparta.project.user.entity.User;
 import jakarta.persistence.*;
@@ -44,8 +44,8 @@ public class Cart {
   }
 
 
-  public boolean containsDifferentStore(Store store) {
-    return hasItems() && !isSameStore(store);
+  public boolean containsDifferentStore(Long storeId) {
+    return hasItems() && !isSameStore(storeId);
   }
 
 
@@ -54,20 +54,18 @@ public class Cart {
     this.store = null;
   }
 
-  public void addItem(Product product, Integer quantity) {
-
-    Store productStore = product.getStore();
+  public void addItem(Product product, Store store, Integer quantity) {
 
     if (this.cartItems.isEmpty()) {
-      changeStore(productStore);
+      changeStore(store);
     }
 
-    if (!isSameStore(productStore)) {
+    if (!isSameStore(store.getId())) {
       throw new CustomException(ErrorCode.CART_STORE_CONFLICT);
     }
 
     CartItem findItem = this.cartItems.stream()
-        .filter(item -> item.getProduct().getId().equals(product.getId()))
+        .filter(item -> item.getProduct().getProductId().equals(product.getProductId()))
         .findFirst()
         .orElse(null);
 
@@ -104,8 +102,8 @@ public class Cart {
   }
 
 
-  private boolean isSameStore(Store store) {
-    return this.store != null && this.store.getId().equals(store.getId());
+  private boolean isSameStore(Long storeId) {
+    return this.store != null && this.store.getId().equals(storeId);
   }
 
   private boolean hasItems() {
